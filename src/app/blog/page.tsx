@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog - Owen Lewis',
+  title: 'Blog - Owen Richards',
   description: 'Read my thoughts on web development, design trends, and digital innovation.',
 };
 

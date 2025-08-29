@@ -19,22 +19,22 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Owen Lewis - Creative Developer & Digital Artist",
+  title: "Owen Richards - Creative Developer & Digital Artist",
   description: "Award-winning creative developer specializing in cutting-edge web experiences, interactive design, and digital innovation. Building the future of the web.",
   keywords: ["creative developer", "web development", "interactive design", "digital artist", "portfolio", "Next.js", "React", "TypeScript"],
-  authors: [{ name: "Owen Lewis" }],
-  creator: "Owen Lewis",
+  authors: [{ name: "Owen Richards" }],
+  creator: "Owen Richards",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://owen.dev",
-    title: "Owen Lewis - Creative Developer & Digital Artist",
+    title: "Owen Richards - Creative Developer & Digital Artist",
     description: "Award-winning creative developer specializing in cutting-edge web experiences and digital innovation.",
-    siteName: "Owen Lewis Portfolio",
+    siteName: "Owen Richards Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Owen Lewis - Creative Developer & Digital Artist",
+    title: "Owen Richards - Creative Developer & Digital Artist",
     description: "Award-winning creative developer specializing in cutting-edge web experiences and digital innovation.",
   },
   robots: {

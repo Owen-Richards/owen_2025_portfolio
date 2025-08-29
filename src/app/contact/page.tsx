@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact - Owen Lewis',
-  description: 'Get in touch with Owen Lewis for collaboration opportunities and project inquiries.',
+  title: 'Contact - Owen Richards',
+  description: 'Get in touch with Owen Richards for collaboration opportunities and project inquiries.',
 };
 
 export default function Contact() {
