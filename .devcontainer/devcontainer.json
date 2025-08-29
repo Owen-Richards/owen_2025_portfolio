@@ -1,0 +1,74 @@
+{
+  "name": "🎨 Owen's Portfolio Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-eslint",
+        "unifiedjs.vscode-mdx",
+        "ms-vscode.vscode-json",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "ms-vscode.vscode-css-peek"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "emmet.includeLanguages": {
+          "javascript": "javascriptreact",
+          "typescript": "typescriptreact"
+        },
+        "github.copilot.enable": {
+          "*": true,
+          "yaml": false,
+          "plaintext": false,
+          "markdown": true,
+          "typescript": true,
+          "typescriptreact": true,
+          "javascript": true,
+          "javascriptreact": true
+        },
+        "editor.inlineSuggest.enabled": true,
+        "github.copilot.chat.enabled": true,
+        "workbench.colorTheme": "GitHub Dark Default",
+        "editor.fontSize": 14,
+        "editor.tabSize": 2,
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000
+      }
+    }
+  },
+
+  "forwardPorts": [3000, 3001],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js Dev Server",
+      "onAutoForward": "openBrowser"
+    },
+    "3001": {
+      "label": "Next.js Alt Port"
+    }
+  },
+
+  "postCreateCommand": "npm install && echo '🎨 Portfolio environment ready! Run npm run dev to start.'",
+  
+  "remoteUser": "node",
+
+  "mounts": [
+    "source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ]
+}

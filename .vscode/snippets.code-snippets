@@ -1,0 +1,214 @@
+{
+  "Next.js Page Component": {
+    "prefix": "npage",
+    "body": [
+      "import { Metadata } from 'next';",
+      "",
+      "export const metadata: Metadata = {",
+      "  title: '${1:Page Title} - Owen Lewis',",
+      "  description: '${2:Page description}',",
+      "};",
+      "",
+      "export default function ${3:PageName}() {",
+      "  return (",
+      "    <div className=\"min-h-screen pt-24 px-6 lg:px-8\">",
+      "      <div className=\"max-w-4xl mx-auto\">",
+      "        <h1 className=\"text-4xl font-display font-bold mb-8\">${4:Page Heading}</h1>",
+      "        <p className=\"text-lg text-foreground/70\">",
+      "          ${5:Page content}",
+      "        </p>",
+      "      </div>",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "Create a new Next.js page component with metadata"
+  },
+  
+  "React Component with TypeScript": {
+    "prefix": "rfc",
+    "body": [
+      "interface ${1:ComponentName}Props {",
+      "  ${2:prop}: ${3:string};",
+      "}",
+      "",
+      "export default function ${1:ComponentName}({ ${2:prop} }: ${1:ComponentName}Props) {",
+      "  return (",
+      "    <div className=\"${4:classes}\">",
+      "      ${5:content}",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "Create a React functional component with TypeScript"
+  },
+
+  "Framer Motion Component": {
+    "prefix": "motion",
+    "body": [
+      "import { motion } from 'framer-motion';",
+      "",
+      "const ${1:variants} = {",
+      "  hidden: { opacity: 0, y: 20 },",
+      "  visible: {",
+      "    opacity: 1,",
+      "    y: 0,",
+      "    transition: {",
+      "      duration: 0.6,",
+      "      ease: 'easeOut',",
+      "    },",
+      "  },",
+      "};",
+      "",
+      "export default function ${2:ComponentName}() {",
+      "  return (",
+      "    <motion.div",
+      "      variants={${1:variants}}",
+      "      initial=\"hidden\"",
+      "      animate=\"visible\"",
+      "      className=\"${3:classes}\"",
+      "    >",
+      "      ${4:content}",
+      "    </motion.div>",
+      "  );",
+      "}"
+    ],
+    "description": "Create a component with Framer Motion animations"
+  },
+
+  "Three.js Component": {
+    "prefix": "three",
+    "body": [
+      "import { useRef } from 'react';",
+      "import { useFrame } from '@react-three/fiber';",
+      "import { Mesh } from 'three';",
+      "",
+      "export default function ${1:ComponentName}() {",
+      "  const meshRef = useRef<Mesh>(null);",
+      "",
+      "  useFrame((state, delta) => {",
+      "    if (meshRef.current) {",
+      "      meshRef.current.rotation.x += delta * 0.5;",
+      "      meshRef.current.rotation.y += delta * 0.2;",
+      "    }",
+      "  });",
+      "",
+      "  return (",
+      "    <mesh ref={meshRef}>",
+      "      <${2:geometry}Geometry args={[${3:1}]} />",
+      "      <${4:meshStandard}Material color=\"${5:#9c8f82}\" />",
+      "    </mesh>",
+      "  );",
+      "}"
+    ],
+    "description": "Create a Three.js component with rotation animation"
+  },
+
+  "Custom Hook": {
+    "prefix": "hook",
+    "body": [
+      "import { useState, useEffect } from 'react';",
+      "",
+      "export function use${1:HookName}(${2:initialValue}: ${3:string}) {",
+      "  const [${4:state}, set${1:HookName}] = useState(${2:initialValue});",
+      "",
+      "  useEffect(() => {",
+      "    ${5:// Hook logic}",
+      "  }, [${6:dependencies}]);",
+      "",
+      "  return { ${4:state}, set${1:HookName} };",
+      "}"
+    ],
+    "description": "Create a custom React hook"
+  },
+
+  "Tailwind Container": {
+    "prefix": "container",
+    "body": [
+      "<div className=\"max-w-${1|sm,md,lg,xl,2xl,4xl,6xl,7xl|} mx-auto px-6 lg:px-8\">",
+      "  ${2:content}",
+      "</div>"
+    ],
+    "description": "Create a responsive container with Tailwind classes"
+  },
+
+  "Glass Card": {
+    "prefix": "glass",
+    "body": [
+      "<div className=\"glass bg-white/80 backdrop-blur-sm border border-primary-200/30 rounded-lg p-6\">",
+      "  ${1:content}",
+      "</div>"
+    ],
+    "description": "Create a glassmorphism card component"
+  },
+
+  "MDX Blog Post Front Matter": {
+    "prefix": "mdx",
+    "body": [
+      "---",
+      "title: \"${1:Post Title}\"",
+      "description: \"${2:Post description}\"",
+      "date: \"${3:2025-01-28}\"",
+      "author: \"Owen Lewis\"",
+      "tags: [\"${4:tag1}\", \"${5:tag2}\"]",
+      "image: \"/blog/${6:image}.jpg\"",
+      "readingTime: ${7:5}",
+      "featured: ${8|true,false|}",
+      "---",
+      "",
+      "# ${1:Post Title}",
+      "",
+      "${9:Post content starts here...}"
+    ],
+    "description": "Create MDX blog post with front matter"
+  },
+
+  "Project Case Study Front Matter": {
+    "prefix": "project",
+    "body": [
+      "---",
+      "title: \"${1:Project Title}\"",
+      "description: \"${2:Project description}\"",
+      "category: \"${3:Web Development}\"",
+      "technologies: [\"${4:Next.js}\", \"${5:TypeScript}\", \"${6:Tailwind CSS}\"]",
+      "year: \"${7:2025}\"",
+      "client: \"${8:Client Name}\"",
+      "featured: ${9|true,false|}",
+      "image: \"/projects/${10:image}.jpg\"",
+      "demo: \"${11:https://demo.com}\"",
+      "github: \"${12:https://github.com/repo}\"",
+      "---",
+      "",
+      "# ${1:Project Title}",
+      "",
+      "## Project Overview",
+      "",
+      "${13:Project description and goals...}"
+    ],
+    "description": "Create project case study with front matter"
+  },
+
+  "Responsive Grid": {
+    "prefix": "grid",
+    "body": [
+      "<div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${1|2,3,4|} gap-${2|4,6,8|}\">",
+      "  ${3:grid items}",
+      "</div>"
+    ],
+    "description": "Create a responsive grid layout"
+  },
+
+  "Button Component": {
+    "prefix": "button",
+    "body": [
+      "<motion.button",
+      "  whileHover={{ scale: 1.05, y: -2 }}",
+      "  whileTap={{ scale: 0.95 }}",
+      "  className=\"px-${1|4,6,8|} py-${2|2,3,4|} bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-${3|md,lg,full|} transition-all duration-300 shadow-lg hover:shadow-xl\"",
+      ">",
+      "  ${4:Button Text}",
+      "</motion.button>"
+    ],
+    "description": "Create an animated button with Framer Motion"
+  }
+}
