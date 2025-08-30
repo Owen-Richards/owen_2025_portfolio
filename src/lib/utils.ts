@@ -1,3 +1,10 @@
+// Utility to concatenate class names conditionally (like clsx/twMerge)
+export function cn(...args: any[]): string {
+  return args
+    .flat(Infinity)
+    .filter(Boolean)
+    .join(' ');
+}
 // Utility functions for the portfolio
 
 export const formatDate = (date: string | Date): string => {

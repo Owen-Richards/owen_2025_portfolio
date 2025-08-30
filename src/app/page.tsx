@@ -1,17 +1,23 @@
-import AboutPreview from '@/components/sections/AboutPreview';
+import AboutEnhanced from '@/components/sections/AboutEnhanced';
 import BlogPreview from '@/components/sections/BlogPreview';
 import ContactCTA from '@/components/sections/ContactCTA';
-import FeaturedWork from '@/components/sections/FeaturedWork';
 import HeroSection from '@/components/sections/HeroSection';
+import ProjectsEnhanced from '@/components/sections/ProjectsEnhanced';
+import TechnicalSkills from '@/components/sections/TechnicalSkills';
 
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
-      <FeaturedWork />
-      <AboutPreview />
+      <div id="home">
+        <HeroSection />
+      </div>
+      <TechnicalSkills />
+      <AboutEnhanced />
+      <ProjectsEnhanced />
       <BlogPreview />
-      <ContactCTA />
+      <div id="contact">
+        <ContactCTA />
+      </div>
     </>
   );
 }

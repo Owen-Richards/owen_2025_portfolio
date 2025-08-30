@@ -155,9 +155,9 @@ function ProjectCard({ project, size, className = '' }: ProjectCardProps) {
       whileHover={{ y: -8 }}
       className={`group relative overflow-hidden rounded-2xl bg-white/60 backdrop-blur-sm border border-primary-200/30 shadow-lg hover:shadow-xl transition-all duration-500 ${className}`}
     >
-      <Link href={project.href}>
-        {/* Project Image */}
-        <div className={`relative overflow-hidden ${size === 'large' ? 'h-96 lg:h-[500px]' : 'h-64 lg:h-80'}`}>
+      {/* Project Image */}
+      <div className={`relative overflow-hidden ${size === 'large' ? 'h-96 lg:h-[500px]' : 'h-64 lg:h-80'}`}>
+        <Link href={project.href} className="absolute inset-0 z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-secondary-100 flex items-center justify-center">
             <span className="text-6xl font-display font-black text-primary-200">
               {project.title.charAt(0)}
@@ -166,35 +166,37 @@ function ProjectCard({ project, size, className = '' }: ProjectCardProps) {
           
           {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
-          {/* Project Links */}
-          <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <motion.a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Github size={16} />
-            </motion.a>
-            <motion.a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ExternalLink size={16} />
-            </motion.a>
-          </div>
+        </Link>
+        
+        {/* Project Links */}
+        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+          <motion.a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Github size={16} />
+          </motion.a>
+          <motion.a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ExternalLink size={16} />
+          </motion.a>
         </div>
+      </div>
 
-        {/* Project Info */}
+      {/* Project Info */}
+      <Link href={project.href}>
         <div className="p-6 lg:p-8">
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag) => (

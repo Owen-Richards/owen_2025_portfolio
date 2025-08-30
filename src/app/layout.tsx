@@ -1,7 +1,7 @@
+import NavigationEnhanced from "@/components/ui/NavigationEnhanced";
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/ui/Navigation";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -53,7 +53,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased`}
       >
-        <Navigation />
+        <NavigationEnhanced />
         <main className="relative">
           {children}
         </main>
