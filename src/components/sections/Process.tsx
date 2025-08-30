@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
 import { scrollManager } from '@/lib/scroll/scroll';
+import { gsap } from 'gsap';
+import { useEffect, useRef, useState } from 'react';
 
 const processSteps = [
   {
@@ -39,7 +39,7 @@ export default function Process() {
     );
 
     // Animate steps based on scroll progress
-    const scrollTrigger = scrollManager.createSectionTimeline(sectionRef.current, tl, {
+    scrollManager.createSectionTimeline(sectionRef.current, tl, {
       start: 'top center',
       end: 'bottom center',
       pin: true,

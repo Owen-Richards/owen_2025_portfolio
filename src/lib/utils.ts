@@ -1,5 +1,5 @@
 // Utility to concatenate class names conditionally (like clsx/twMerge)
-export function cn(...args: any[]): string {
+export function cn(...args: (string | undefined | null | boolean)[]): string {
   return args
     .flat(Infinity)
     .filter(Boolean)

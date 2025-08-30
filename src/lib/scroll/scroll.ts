@@ -29,13 +29,6 @@ export class ScrollManager {
     this.lenis = new Lenis({
       duration: prefersReducedMotion ? 0.5 : 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: !prefersReducedMotion,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
     });
 
     // Connect Lenis to GSAP ScrollTrigger
@@ -57,7 +50,7 @@ export class ScrollManager {
 
   // Create scroll-triggered timeline for a section
   createSectionTimeline(
-    trigger: string | Element,
+    trigger: string | HTMLElement,
     timeline: gsap.core.Timeline,
     options: {
       start?: string;
@@ -96,7 +89,7 @@ export class ScrollManager {
   }
 
   // Scroll to a specific element
-  scrollTo(target: string | Element, options: { offset?: number; duration?: number } = {}) {
+  scrollTo(target: string | HTMLElement, options: { offset?: number; duration?: number } = {}) {
     this.lenis?.scrollTo(target, {
       offset: options.offset ?? 0,
       duration: options.duration ?? 2,

@@ -1,18 +1,17 @@
 'use client';
 
-import { Suspense, useEffect, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
-import * as THREE from 'three';
 import { scrollManager } from '@/lib/scroll/scroll';
-import FallbackHero from '@/components/fallback/FallbackHero';
+import { AdaptiveDpr, AdaptiveEvents } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
 
 // Scene components (will be dynamically imported)
-import HeroScene from './scenes/HeroScene';
-import CraftScene from './scenes/CraftScene';
-import ProcessScene from './scenes/ProcessScene';
-import ImpactScene from './scenes/ImpactScene';
 import ContactScene from './scenes/ContactScene';
+import CraftScene from './scenes/CraftScene';
+import HeroScene from './scenes/HeroScene';
+import ImpactScene from './scenes/ImpactScene';
+import ProcessScene from './scenes/ProcessScene';
 
 interface CanvasExperienceProps {
   className?: string;
@@ -79,7 +78,14 @@ export default function CanvasExperience({ className = '' }: CanvasExperiencePro
 
   // Fallback for unsupported browsers or reduced motion
   if (isWebGLSupported === false || prefersReducedMotion) {
-    return <FallbackHero />;
+    return (
+      <div className="fixed inset-0 bg-slate-900 flex items-center justify-center">
+        <div className="text-center text-white">
+          <h1 className="text-4xl font-bold mb-4">Signal in the noise</h1>
+          <p className="text-lg text-gray-300">WebGL not supported or motion is reduced</p>
+        </div>
+      </div>
+    );
   }
 
   // Loading state

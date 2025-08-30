@@ -1,8 +1,7 @@
 'use client';
 
-import { Suspense, lazy } from 'react';
 import CanvasExperience from '@/components/canvas/CanvasExperience';
-import FallbackHero from '@/components/fallback/FallbackHero';
+import { Suspense, lazy } from 'react';
 
 // Lazy load sections for better performance
 const Hero = lazy(() => import('@/components/sections/Hero'));
@@ -43,7 +42,14 @@ export default function SitePage() {
   return (
     <>
       {/* WebGL Canvas Background */}
-      <Suspense fallback={<FallbackHero />}>
+      <Suspense fallback={
+        <div className="fixed inset-0 bg-slate-900 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-bold mb-4">{siteContent.hero.title}</h1>
+            <p className="text-lg text-gray-300">Loading experience...</p>
+          </div>
+        </div>
+      }>
         <CanvasExperience />
       </Suspense>
 
