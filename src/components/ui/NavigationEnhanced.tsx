@@ -1,67 +1,337 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useTheme } from "./ThemeProvider";
 
 const navigationItems = [
-  { name: "Home", href: "#home" },
-  { name: "Skills", href: "#skills" },
-  { name: "About", href: "#about" },
-  { name: "Projects", href: "#projects" },
-  { name: "Blog", href: "/blog" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "#home", type: "anchor" as const },
+  { name: "Skills", href: "#skills", type: "anchor" as const },
+  { name: "About", href: "#about", type: "anchor" as const },
+  { name: "Projects", href: "#projects", type: "anchor" as const },
+  { name: "Work", href: "/work", type: "page" as const },
+  { name: "Blog", href: "/blog", type: "page" as const },
+  { name: "Contact", href: "#contact", type: "anchor" as const },
 ];
 
+// Memoized navigation button component to prevent unnecessary re-renders
+const NavigationButton = memo(({ 
+  item, 
+  index, 
+  isActive, 
+  scrollToSection 
+}: { 
+  item: typeof navigationItems[0], 
+  index: number, 
+  isActive: boolean, 
+  scrollToSection: (href: string) => void 
+}) => {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      className="relative"
+    >
+      {item.type === 'page' ? (
+        <Link
+          href={item.href}
+          className={`relative px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-300 z-10 ${
+            isActive 
+              ? "text-white bg-gradient-to-r from-blue-500/80 to-purple-500/80 shadow-lg shadow-blue-500/25" 
+              : "text-white/70 hover:text-white hover:bg-white/10"
+          }`}
+        >
+          {item.name}
+        </Link>
+      ) : (
+        <button
+          onClick={() => scrollToSection(item.href)}
+          className={`relative px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-300 z-10 ${
+            isActive 
+              ? "text-white bg-gradient-to-r from-blue-500/80 to-purple-500/80 shadow-lg shadow-blue-500/25" 
+              : "text-white/70 hover:text-white hover:bg-white/10"
+          }`}
+        >
+          {item.name}
+        </button>
+      )}
+      {isActive && (
+        <motion.div
+          layoutId="activeIndicator"
+          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl"
+          transition={{ type: "spring", duration: 0.5 }}
+        />
+      )}
+    </motion.div>
+  );
+});
+
+NavigationButton.displayName = 'NavigationButton';
+
+// Memoized theme toggle button component
+const ThemeToggleButton = memo(() => {
+  const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="p-2.5 w-10 h-10 rounded-xl bg-white/10 border border-white/20" />
+    );
+  }
+
+  return (
+    <motion.button
+      onClick={toggleTheme}
+      className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 transition-all duration-300"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      aria-label="Toggle theme"
+    >
+      <motion.div
+        key={theme}
+        initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+        animate={{ rotate: 0, opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
+        className="flex items-center justify-center"
+      >
+        {theme === 'light' ? (
+          <Moon size={16} className="text-white/70" />
+        ) : (
+          <Sun size={16} className="text-white/70" />
+        )}
+      </motion.div>
+    </motion.button>
+  );
+});
+
+ThemeToggleButton.displayName = 'ThemeToggleButton';
+
+// Memoized mobile navigation item component
+const MobileNavigationItem = memo(({ 
+  item, 
+  index, 
+  isActive, 
+  scrollToSection,
+  setIsMobileMenuOpen,
+  isMobileMenuOpen 
+}: { 
+  item: typeof navigationItems[0], 
+  index: number, 
+  isActive: boolean, 
+  scrollToSection: (href: string) => void,
+  setIsMobileMenuOpen: (open: boolean) => void,
+  isMobileMenuOpen: boolean 
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={isMobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+      transition={{ delay: index * 0.1 }}
+    >
+      {item.type === 'page' ? (
+        <Link
+          href={item.href}
+          onClick={() => setIsMobileMenuOpen(false)}
+          className={`block text-left px-6 py-4 rounded-xl font-medium transition-all duration-300 ${
+            isActive 
+              ? "text-white bg-gradient-to-r from-blue-500/80 to-purple-500/80 shadow-lg" 
+              : "text-white/70 hover:text-white hover:bg-white/10"
+          }`}
+        >
+          {item.name}
+        </Link>
+      ) : (
+        <button
+          onClick={() => scrollToSection(item.href)}
+          className={`text-left px-6 py-4 rounded-xl font-medium transition-all duration-300 w-full ${
+            isActive 
+              ? "text-white bg-gradient-to-r from-blue-500/80 to-purple-500/80 shadow-lg" 
+              : "text-white/70 hover:text-white hover:bg-white/10"
+          }`}
+        >
+          {item.name}
+        </button>
+      )}
+    </motion.div>
+  );
+});
+
+MobileNavigationItem.displayName = 'MobileNavigationItem';
+
 export default function NavigationEnhanced() {
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState("#home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
   const { scrollY } = useScroll();
+  const lastActiveSection = useRef("#home");
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   
   // Transform background opacity based on scroll
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
-    ["rgba(10, 10, 15, 0)", "rgba(10, 10, 15, 0.95)"]
+    ["rgba(0, 0, 0, 0.3)", "rgba(0, 0, 0, 0.9)"]
   );
   
   const backdropBlur = useTransform(
     scrollY,
     [0, 100],
-    ["blur(0px)", "blur(12px)"]
+    ["blur(8px)", "blur(16px)"]
   );
 
-  // Handle scroll-based active section detection
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navigationItems.map(item => 
-        item.href.startsWith("#") ? item.href.slice(1) : null
-      ).filter(Boolean);
-      
-      const scrollPosition = window.scrollY + 100;
-      
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId!);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(sectionId!);
-            break;
-          }
+  // Optimized scroll detection that prevents unnecessary re-renders
+  const detectActiveSection = useCallback(() => {
+    const currentPath = window.location.pathname;
+    
+    // If we're on a dedicated page, set active section to page route
+    if (currentPath !== '/') {
+      const pageItem = navigationItems.find(item => 
+        item.type === 'page' && item.href === currentPath
+      );
+      if (pageItem && lastActiveSection.current !== pageItem.href) {
+        lastActiveSection.current = pageItem.href;
+        setActiveSection(pageItem.href);
+      }
+      return;
+    }
+    
+    // Only detect scroll-based sections on the home page
+    const anchorSections = navigationItems
+      .filter(item => item.type === 'anchor')
+      .map(item => item.href.slice(1));
+    
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Calculate scroll progress for better section detection
+    const scrollProgress = window.scrollY / (documentHeight - windowHeight);
+    
+    // Special case for very top of page (first 10% of viewport)
+    if (window.scrollY < windowHeight * 0.1) {
+      if (lastActiveSection.current !== "#home") {
+        lastActiveSection.current = "#home";
+        setActiveSection("#home");
+      }
+      return;
+    }
+    
+    // Special case for very bottom of page (last 5% of scroll)
+    if (scrollProgress >= 0.95) {
+      if (lastActiveSection.current !== "#contact") {
+        lastActiveSection.current = "#contact";
+        setActiveSection("#contact");
+      }
+      return;
+    }
+    
+    // Find the section that has the most viewport intersection
+    let largestIntersection = 0;
+    let newActiveSection = null;
+    
+    for (const sectionId of anchorSections) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Calculate how much of the section is visible in the viewport
+        const visibleTop = Math.max(0, -rect.top);
+        const visibleBottom = Math.min(rect.height, viewportHeight - Math.max(0, rect.top));
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        
+        // Priority for sections that are prominently visible (more than 30% of section or 50% of viewport)
+        const sectionVisibilityRatio = visibleHeight / rect.height;
+        const viewportCoverageRatio = visibleHeight / viewportHeight;
+        
+        const score = Math.max(sectionVisibilityRatio, viewportCoverageRatio);
+        
+        if (score > 0.3 && visibleHeight > largestIntersection) {
+          largestIntersection = visibleHeight;
+          newActiveSection = "#" + sectionId;
         }
       }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    }
+    
+    // Only update state if section actually changed and we found a valid section
+    if (newActiveSection && lastActiveSection.current !== newActiveSection) {
+      lastActiveSection.current = newActiveSection;
+      setActiveSection(newActiveSection);
+    }
   }, []);
+
+  // Throttled scroll handler to prevent excessive re-renders
+  const handleScroll = useCallback(() => {
+    if (scrollTimeout.current) {
+      clearTimeout(scrollTimeout.current);
+    }
+    
+    scrollTimeout.current = setTimeout(() => {
+      detectActiveSection();
+    }, 16); // ~60fps throttling
+  }, [detectActiveSection]);
+
+  // Enhanced scroll-based active section detection
+  useEffect(() => {
+    // Initial detection
+    detectActiveSection();
+    
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("popstate", detectActiveSection);
+    
+    return () => {
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("popstate", detectActiveSection);
+    };
+  }, [handleScroll, detectActiveSection]);
+
+  // Handle hash-based navigation when landing on home page
+  useEffect(() => {
+    if (pathname === '/') {
+      const hash = window.location.hash;
+      if (hash) {
+        // Small delay to ensure page is fully loaded and sections are rendered
+        setTimeout(() => {
+          const element = document.getElementById(hash.slice(1));
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 500);
+      }
+    }
+  }, [pathname]);
 
   const scrollToSection = (href: string) => {
     if (href.startsWith("#")) {
-      const element = document.getElementById(href.slice(1));
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      const currentPath = pathname;
+      
+      // If we're not on the home page, navigate to home first then scroll
+      if (currentPath !== '/') {
+        // Use Next.js router to navigate with hash
+        router.push('/' + href);
+      } else {
+        // We're on the home page, scroll directly
+        const element = document.getElementById(href.slice(1));
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
+    } else {
+      // This is a page route
+      router.push(href);
     }
     setIsMobileMenuOpen(false);
   };
@@ -73,118 +343,118 @@ export default function NavigationEnhanced() {
           backgroundColor,
           backdropFilter: backdropBlur,
         }}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-800/50"
+        className="fixed top-0 left-0 right-0 z-50 border-b border-white/10"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link href="/" className="font-bold text-xl text-accent hover:text-accent-foreground transition-colors">
-              Owen Richards
-            </Link>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Enhanced Logo */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                href="/" 
+                className="relative group"
+              >
+                <span className="font-bold text-2xl bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                  Owen Richards
+                </span>
+                <motion.div
+                  className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 origin-left"
+                  initial={{ scaleX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </Link>
+            </motion.div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navigationItems.map((item) => {
-                const isActive = item.href.startsWith("#") 
-                  ? activeSection === item.href.slice(1)
-                  : false;
-                
-                return (
-                  <motion.button
-                    key={item.name}
-                    onClick={() => scrollToSection(item.href)}
-                    className={`relative px-3 py-2 text-sm font-medium transition-colors ${
-                      isActive 
-                        ? "text-accent" 
-                        : "text-neutral-300 hover:text-white"
-                    }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item.name}
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeIndicator"
-                        className="absolute inset-x-0 -bottom-1 h-0.5 bg-accent rounded-full"
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                      />
-                    )}
-                  </motion.button>
-                );
-              })}
+            {/* Desktop Navigation - Premium Glass Design */}
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="flex items-center space-x-1 bg-white/5 backdrop-blur-xl rounded-2xl px-2 py-2 border border-white/10 shadow-lg">
+                {navigationItems.map((item, index) => {
+                  const isActive = item.type === 'anchor' 
+                    ? activeSection === item.href
+                    : pathname === item.href;
+                  
+                  return (
+                    <NavigationButton
+                      key={item.name}
+                      item={item}
+                      index={index}
+                      isActive={isActive}
+                      scrollToSection={scrollToSection}
+                    />
+                  );
+                })}
+              </div>
+              
+              {/* Theme Toggle */}
+              <ThemeToggleButton />
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden relative w-6 h-6 flex flex-col justify-center items-center"
-              aria-label="Toggle mobile menu"
-            >
-              <motion.span
-                animate={isMobileMenuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
-                className="w-6 h-0.5 bg-white block absolute transition-all"
-              />
-              <motion.span
-                animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-0.5 bg-white block absolute transition-all"
-              />
-              <motion.span
-                animate={isMobileMenuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
-                className="w-6 h-0.5 bg-white block absolute transition-all"
-              />
-            </button>
+            {/* Enhanced Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-3">
+              <ThemeToggleButton />
+              <motion.button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="relative w-8 h-8 flex flex-col justify-center items-center bg-white/10 rounded-xl backdrop-blur-sm border border-white/20"
+                aria-label="Toggle mobile menu"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.span
+                  animate={isMobileMenuOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
+                  className="w-5 h-0.5 bg-white block absolute transition-all"
+                />
+                <motion.span
+                  animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                  className="w-5 h-0.5 bg-white block absolute transition-all"
+                />
+                <motion.span
+                  animate={isMobileMenuOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
+                  className="w-5 h-0.5 bg-white block absolute transition-all"
+                />
+              </motion.button>
+            </div>
           </div>
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Enhanced Mobile Menu Overlay */}
       <motion.div
         initial={false}
         animate={isMobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-        className={`fixed inset-x-0 top-16 z-40 md:hidden ${
+        className={`fixed inset-x-0 top-20 z-40 md:hidden ${
           isMobileMenuOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
-        <div className="bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-800 shadow-xl">
-          <div className="max-w-7xl mx-auto px-4 py-6">
-            <div className="flex flex-col space-y-4">
+        <div className="bg-black/95 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="flex flex-col space-y-2">
               {navigationItems.map((item, index) => {
-                const isActive = item.href.startsWith("#") 
-                  ? activeSection === item.href.slice(1)
-                  : false;
+                const isActive = item.type === 'anchor' 
+                  ? activeSection === item.href
+                  : pathname === item.href;
                 
                 return (
-                  <motion.button
+                  <MobileNavigationItem
                     key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isMobileMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ delay: index * 0.1 }}
-                    onClick={() => scrollToSection(item.href)}
-                    className={`text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-                      isActive 
-                        ? "text-accent bg-accent/10" 
-                        : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
-                    }`}
-                  >
-                    {item.name}
-                  </motion.button>
+                    item={item}
+                    index={index}
+                    isActive={isActive}
+                    scrollToSection={scrollToSection}
+                    setIsMobileMenuOpen={setIsMobileMenuOpen}
+                    isMobileMenuOpen={isMobileMenuOpen}
+                  />
                 );
               })}
             </div>
           </div>
         </div>
       </motion.div>
-
-      {/* Mobile Menu Backdrop */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
     </>
   );
 }

@@ -1,41 +1,36 @@
 import NavigationEnhanced from "@/components/ui/NavigationEnhanced";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import ScrollWrapper from "@/components/ui/ScrollWrapper";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 export const metadata: Metadata = {
-  title: "Owen Richards - Creative Developer & Digital Artist",
-  description: "Award-winning creative developer specializing in cutting-edge web experiences, interactive design, and digital innovation. Building the future of the web.",
-  keywords: ["creative developer", "web development", "interactive design", "digital artist", "portfolio", "Next.js", "React", "TypeScript"],
+  title: "Owen Richards - Senior Full-Stack Developer & Technical Lead",
+  description: "Experienced full-stack developer and technical leader specializing in modern web technologies, scalable architecture, and team leadership. Available for senior engineering roles.",
+  keywords: ["senior developer", "full-stack developer", "technical lead", "web development", "React", "Next.js", "TypeScript", "Node.js", "AWS", "portfolio"],
   authors: [{ name: "Owen Richards" }],
   creator: "Owen Richards",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://owen.dev",
-    title: "Owen Richards - Creative Developer & Digital Artist",
-    description: "Award-winning creative developer specializing in cutting-edge web experiences and digital innovation.",
-    siteName: "Owen Richards Portfolio",
+    title: "Owen Richards - Senior Full-Stack Developer & Technical Lead",
+    description: "Experienced full-stack developer and technical leader with proven expertise in modern web technologies and scalable solutions.",
+    siteName: "Owen Richards - Professional Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Owen Richards - Creative Developer & Digital Artist",
-    description: "Award-winning creative developer specializing in cutting-edge web experiences and digital innovation.",
+    title: "Owen Richards - Senior Full-Stack Developer",
+    description: "Experienced full-stack developer and technical leader available for senior engineering roles.",
   },
   robots: {
     index: true,
@@ -51,12 +46,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} antialiased`}
+        className={`${inter.variable} antialiased bg-background text-foreground font-sans`}
       >
-        <NavigationEnhanced />
-        <main className="relative">
-          {children}
-        </main>
+        <ThemeProvider>
+          <ScrollWrapper>
+            <NavigationEnhanced />
+            <ScrollProgress />
+            <main className="relative min-h-screen" style={{ zIndex: 10 }}>
+              {children}
+            </main>
+          </ScrollWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

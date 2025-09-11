@@ -3,10 +3,12 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
+import { useThemeStyles } from "../ui/useThemeStyles";
 
 export default function AboutEnhanced() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "0px 0px -200px 0px" });
+  const { styles, cn } = useThemeStyles();
   
   // Parallax scroll effects
   const { scrollYProgress } = useScroll({
@@ -19,14 +21,21 @@ export default function AboutEnhanced() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
-    <section ref={containerRef} id="about" className="relative py-24 md:py-32 overflow-hidden">
+    <section 
+      ref={containerRef} 
+      id="about" 
+      className={cn(styles.layout.section, "overflow-hidden")}
+    >
       {/* Parallax background */}
       <motion.div 
         style={{ y: backgroundY }}
-        className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-800 opacity-50"
+        className={cn(
+          "absolute inset-0 opacity-50",
+          styles.theme.sectionBackground
+        )}
       />
       
-      <div className="relative max-w-7xl mx-auto px-4">
+      <div className={styles.layout.container}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
           <motion.div
@@ -41,7 +50,10 @@ export default function AboutEnhanced() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-4xl md:text-6xl font-extrabold tracking-tight text-accent mb-6 drop-shadow-lg"
+                className={cn(
+                  "text-4xl md:text-6xl font-extrabold tracking-tight mb-6",
+                  styles.text.heading
+                )}
               >
                 About Me
               </motion.h2>
@@ -50,10 +62,13 @@ export default function AboutEnhanced() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-xl md:text-2xl text-neutral-300 leading-relaxed mb-8"
+                className={cn(
+                  "text-xl md:text-2xl leading-relaxed mb-8",
+                  styles.text.muted
+                )}
               >
-                I&apos;m a <span className="text-accent font-semibold">full-stack engineer</span> and
-                <span className="text-accent font-semibold"> AI enthusiast</span> who thrives at the 
+                I&apos;m a <span className={cn("font-semibold", styles.text.primary)}>full-stack engineer</span> and
+                <span className={cn("font-semibold", styles.text.primary)}> AI enthusiast</span> who thrives at the 
                 intersection of creativity and technology.
               </motion.p>
             </div>
@@ -78,10 +93,14 @@ export default function AboutEnhanced() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.8, delay: 0.6 + index * 0.2 }}
-                  className="border-l-4 border-accent/30 pl-6 py-2"
+                  className="border-l-4 border-primary/30 pl-6 py-2"
                 >
-                  <h3 className="text-lg font-bold text-accent-foreground mb-2">{item.title}</h3>
-                  <p className="text-neutral-400 leading-relaxed">{item.description}</p>
+                  <h3 className={cn("text-lg font-bold mb-2", styles.text.heading)}>
+                    {item.title}
+                  </h3>
+                  <p className={cn("leading-relaxed", styles.text.muted)}>
+                    {item.description}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -96,76 +115,74 @@ export default function AboutEnhanced() {
                 href="/Owen-L-Richards-Resume-2025.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-accent text-white font-semibold rounded-full hover:bg-accent-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                className={cn(
+                  styles.button.primary,
+                  "inline-flex items-center"
+                )}
               >
-                Download Resume
-                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+                View Resume
               </a>
               
-              <a 
-                href="#contact"
-                className="inline-flex items-center px-6 py-3 border border-accent text-accent font-semibold rounded-full hover:bg-accent hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
-              >
+              <button className={cn(styles.button.secondary)}>
                 Let&apos;s Connect
-              </a>
+              </button>
             </motion.div>
           </motion.div>
 
-          {/* Image/Visual Content */}
+          {/* Image Content */}
           <motion.div
             style={{ y: imageY }}
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             className="relative"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <Image 
+            <div className={cn(
+              "relative overflow-hidden rounded-2xl",
+              styles.glass.base,
+              "border-2 border-border",
+              styles.theme.cardShadow
+            )}>
+              <Image
                 src="/IMG-3605.jpg"
                 alt="Owen Richards"
-                width={500}
-                height={500}
-                className="w-full h-96 lg:h-[500px] object-cover"
+                width={600}
+                height={600}
+                className="w-full h-auto object-cover"
                 priority
               />
               
               {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/50 to-transparent" />
-              
-              {/* Floating elements for visual interest */}
-              <motion.div
-                animate={{ 
-                  y: [0, -10, 0],
-                  rotate: [0, 5, -5, 0]
-                }}
-                transition={{ 
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute top-8 right-8 w-16 h-16 bg-accent/20 rounded-full backdrop-blur-sm flex items-center justify-center"
-              >
-                <span className="text-2xl">🚀</span>
-              </motion.div>
-              
-              <motion.div
-                animate={{ 
-                  y: [0, 10, 0],
-                  rotate: [0, -5, 5, 0]
-                }}
-                transition={{ 
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
-                className="absolute bottom-8 left-8 w-12 h-12 bg-accent-foreground/20 rounded-full backdrop-blur-sm flex items-center justify-center"
-              >
-                <span className="text-lg">💡</span>
-              </motion.div>
+              <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent" />
             </div>
+
+            {/* Floating decorative elements */}
+            <motion.div
+              animate={{
+                y: [0, -20, 0],
+                rotate: [0, 5, 0]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="absolute -top-6 -right-6 w-12 h-12 bg-accent/20 rounded-full backdrop-blur-sm border border-primary/20"
+            />
+            
+            <motion.div
+              animate={{
+                y: [0, -15, 0],
+                rotate: [0, -3, 0]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2
+              }}
+              className="absolute -bottom-4 -left-4 w-8 h-8 bg-primary/20 rounded-full backdrop-blur-sm border border-accent/20"
+            />
           </motion.div>
         </div>
       </div>

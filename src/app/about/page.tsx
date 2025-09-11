@@ -1,5 +1,6 @@
 'use client';
 
+import { useThemeStyles } from '@/components/ui/useThemeStyles';
 import { motion } from 'framer-motion';
 import { Calendar, Code, Coffee, Download, Heart, MapPin, Palette, Zap } from 'lucide-react';
 
@@ -34,11 +35,13 @@ const itemVariants = {
 };
 
 export default function About() {
+  const { styles, cn } = useThemeStyles();
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="py-24 lg:py-32 bg-gradient-to-br from-primary-50 to-secondary-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className={cn(styles.layout.section, "bg-gradient-to-br from-background via-muted/30 to-background")}>
+        <div className={styles.layout.container}>
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -50,10 +53,10 @@ export default function About() {
               <div className="relative">
                 <motion.div
                   whileHover={{ scale: 1.02, rotate: 1 }}
-                  className="aspect-square rounded-3xl bg-gradient-to-br from-primary-200 to-secondary-200 flex items-center justify-center overflow-hidden"
+                  className={cn(styles.card.base, "aspect-square rounded-3xl bg-gradient-to-br from-card via-muted/20 to-card flex items-center justify-center overflow-hidden")}
                 >
-                  <div className="w-48 h-48 bg-primary-300 rounded-full flex items-center justify-center">
-                    <span className="text-8xl font-display font-black text-primary-600">
+                  <div className="w-48 h-48 bg-primary/20 rounded-full flex items-center justify-center">
+                    <span className="text-8xl font-display font-black text-primary">
                       O
                     </span>
                   </div>
@@ -70,7 +73,7 @@ export default function About() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="absolute -top-4 -right-4 px-4 py-2 bg-accent-400 text-white rounded-full text-sm font-medium"
+                  className="absolute -top-4 -right-4 px-4 py-2 bg-accent text-accent-foreground rounded-full text-sm font-medium"
                 >
                   Available for work
                 </motion.div>
@@ -82,9 +85,9 @@ export default function About() {
               <div>
                 <h1 className="text-5xl lg:text-6xl font-display font-bold text-foreground mb-6">
                   About
-                  <span className="text-primary-600 ml-4 slight-skew">Me</span>
+                  <span className="text-primary ml-4 slight-skew">Me</span>
                 </h1>
-                <div className="space-y-6 text-lg text-foreground/70 font-serif leading-relaxed">
+                <div className="space-y-6 text-lg text-muted-foreground font-serif leading-relaxed">
                   <p>
                     I&apos;m Owen, a creative developer who thrives at the intersection of 
                     technology and design. With over 5 years of experience crafting digital 
@@ -101,20 +104,20 @@ export default function About() {
 
               {/* Quick Facts */}
               <div className="grid grid-cols-2 gap-6">
-                <div className="flex items-center gap-3 text-foreground/80">
-                  <MapPin size={20} className="text-primary-600" />
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <MapPin size={20} className="text-primary" />
                   <span>San Francisco, CA</span>
                 </div>
-                <div className="flex items-center gap-3 text-foreground/80">
-                  <Calendar size={20} className="text-primary-600" />
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <Calendar size={20} className="text-primary" />
                   <span>5+ Years Experience</span>
                 </div>
-                <div className="flex items-center gap-3 text-foreground/80">
-                  <Coffee size={20} className="text-primary-600" />
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <Coffee size={20} className="text-primary" />
                   <span>Coffee Enthusiast</span>
                 </div>
-                <div className="flex items-center gap-3 text-foreground/80">
-                  <Heart size={20} className="text-primary-600" />
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <Heart size={20} className="text-primary" />
                   <span>Design Lover</span>
                 </div>
               </div>
@@ -123,7 +126,7 @@ export default function About() {
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                className={cn(styles.button.primary, "flex items-center gap-2 shadow-lg hover:shadow-xl")}
               >
                 <Download size={18} />
                 Download Resume
@@ -134,8 +137,8 @@ export default function About() {
       </section>
 
       {/* Skills Section */}
-      <section className="py-24 lg:py-32 bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <section className={cn(styles.layout.section, "bg-background")}>
+        <div className={styles.layout.container}>
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -145,9 +148,9 @@ export default function About() {
             <motion.div variants={itemVariants} className="text-center mb-20">
               <h2 className="text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
                 Skills &
-                <span className="text-primary-600 ml-4 slight-skew">Expertise</span>
+                <span className="text-primary ml-4 slight-skew">Expertise</span>
               </h2>
-              <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-serif">
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-serif">
                 A diverse toolkit that enables me to bring creative visions to life
                 through code, design, and innovative technology.
               </p>
@@ -159,11 +162,11 @@ export default function About() {
                   key={skillCategory.category}
                   variants={itemVariants}
                   whileHover={{ y: -4 }}
-                  className="p-8 glass bg-white/60 backdrop-blur-sm rounded-2xl border border-primary-200/30"
+                  className={cn(styles.card.base, styles.glass.card)}
                 >
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="p-3 bg-primary-100 rounded-full">
-                      <skillCategory.icon className="w-6 h-6 text-primary-600" />
+                    <div className="p-3 bg-primary/20 rounded-full">
+                      <skillCategory.icon className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="text-2xl font-display font-bold text-foreground">
                       {skillCategory.category}
@@ -173,7 +176,7 @@ export default function About() {
                     {skillCategory.items.map((skill) => (
                       <span
                         key={skill}
-                        className="px-4 py-2 bg-primary-50 text-primary-700 rounded-full text-sm font-medium"
+                        className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium"
                       >
                         {skill}
                       </span>

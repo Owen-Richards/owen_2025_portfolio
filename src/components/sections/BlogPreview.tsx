@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Clock, Tag } from 'lucide-react';
 import Link from 'next/link';
+import { useThemeStyles } from '../ui/useThemeStyles';
 
 const blogPosts = [
   {
@@ -60,10 +61,125 @@ const itemVariants = {
   },
 };
 
-export default function BlogPreview() {
+// Blog Card Component
+function BlogCard({ post, size = "normal" }: { 
+  post: typeof blogPosts[0], 
+  size?: "normal" | "large" 
+}) {
+  const { styles, cn } = useThemeStyles();
+  
   return (
-    <section className="py-24 lg:py-32 bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <motion.article
+      whileHover={{ y: -8, scale: 1.02 }}
+      className={cn(
+        "group cursor-pointer transition-all duration-300",
+        styles.glass.base,
+        "border border-border hover:border-primary/50",
+        styles.theme.cardShadow,
+        "hover:shadow-[var(--shadow-strong)]",
+        "rounded-2xl overflow-hidden",
+        size === "large" ? "h-96" : "h-80"
+      )}
+    >
+      <Link href={`/blog/${post.slug}`}>
+        <div className="relative h-full flex flex-col">
+          {/* Image Placeholder */}
+          <div className={cn(
+            "relative overflow-hidden",
+            size === "large" ? "h-48" : "h-40",
+            "bg-gradient-to-br from-primary/20 to-accent/20"
+          )}>
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+            
+            {/* Category Badge */}
+            <div className="absolute top-4 left-4">
+              <span className={cn(
+                "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium",
+                "bg-primary text-primary-foreground"
+              )}>
+                <Tag size={12} />
+                {post.category}
+              </span>
+            </div>
+
+            {/* Featured Badge */}
+            {post.featured && (
+              <div className="absolute top-4 right-4">
+                <span className={cn(
+                  "px-3 py-1 rounded-full text-xs font-medium",
+                  "bg-accent text-accent-foreground"
+                )}>
+                  Featured
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 p-6 flex flex-col">
+            <div className="flex-1">
+              <h3 className={cn(
+                "font-bold mb-3 line-clamp-2 transition-colors",
+                styles.text.heading,
+                "group-hover:text-primary",
+                size === "large" ? "text-xl md:text-2xl" : "text-lg"
+              )}>
+                {post.title}
+              </h3>
+              
+              <p className={cn(
+                "leading-relaxed line-clamp-3 mb-4",
+                styles.text.muted,
+                size === "large" ? "text-base" : "text-sm"
+              )}>
+                {post.excerpt}
+              </p>
+            </div>
+
+            {/* Meta Information */}
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <div className="flex items-center space-x-4 text-sm">
+                <div className={cn(
+                  "flex items-center gap-1",
+                  styles.text.muted
+                )}>
+                  <Calendar size={14} />
+                  <span>{post.date}</span>
+                </div>
+                
+                <div className={cn(
+                  "flex items-center gap-1",
+                  styles.text.muted
+                )}>
+                  <Clock size={14} />
+                  <span>{post.readTime}</span>
+                </div>
+              </div>
+
+              <motion.div
+                className={cn(
+                  "flex items-center gap-1 text-sm font-medium",
+                  styles.text.primary,
+                  "group-hover:gap-2 transition-all duration-300"
+                )}
+              >
+                Read More
+                <ArrowRight size={14} />
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.article>
+  );
+}
+
+export default function BlogPreview() {
+  const { styles, cn } = useThemeStyles();
+  
+  return (
+    <section className={cn(styles.layout.section, styles.theme.sectionBackground)}>
+      <div className={styles.layout.container}>
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -75,14 +191,26 @@ export default function BlogPreview() {
             variants={itemVariants}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
+            <motion.h2 
+              className={cn(
+                "text-4xl lg:text-5xl font-display font-bold mb-6",
+                styles.text.heading
+              )}
+              whileHover={{ scale: 1.05 }}
+            >
               Latest
-              <span className="text-primary-600 ml-4 slight-skew">Insights</span>
-            </h2>
-            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-serif">
+              <span className={cn("ml-4", styles.text.primary)}>Insights</span>
+            </motion.h2>
+            
+            <motion.p 
+              className={cn(
+                "text-xl max-w-3xl mx-auto font-serif leading-relaxed",
+                styles.text.muted
+              )}
+            >
               Thoughts on design, development, and the future of digital experiences. 
               Sharing knowledge and insights from the trenches of creative development.
-            </p>
+            </motion.p>
           </motion.div>
 
           {/* Blog Posts Grid */}
@@ -102,32 +230,29 @@ export default function BlogPreview() {
                   key={post.id}
                   variants={itemVariants}
                 >
-                  <BlogCard post={post} size="small" />
+                  <BlogCard post={post} />
                 </motion.div>
               ))}
             </div>
           </div>
 
-          {/* View All CTA */}
+          {/* View All Button */}
           <motion.div
             variants={itemVariants}
-            className="text-center mt-20"
+            className="text-center mt-16"
           >
             <Link href="/blog">
               <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
+                className={cn(styles.button.primary, "inline-flex items-center gap-3")}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center gap-2"
               >
-                Read All Posts
+                <span>View All Posts</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <ArrowRight 
-                    size={18} 
-                    className="group-hover:translate-x-1 transition-transform duration-300" 
-                  />
+                  <ArrowRight size={20} />
                 </motion.div>
               </motion.button>
             </Link>
@@ -135,69 +260,5 @@ export default function BlogPreview() {
         </motion.div>
       </div>
     </section>
-  );
-}
-
-interface BlogCardProps {
-  post: typeof blogPosts[0];
-  size: 'large' | 'small';
-}
-
-function BlogCard({ post, size }: BlogCardProps) {
-  return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      className="group h-full"
-    >
-      <Link href={`/blog/${post.slug}`} className="block h-full">
-        <div className={`h-full overflow-hidden rounded-2xl bg-white/60 backdrop-blur-sm border border-primary-200/30 shadow-lg hover:shadow-xl transition-all duration-500 ${size === 'large' ? 'p-8' : 'p-6'}`}>
-          
-          {/* Category Badge */}
-          <div className="flex items-center gap-3 mb-4">
-            <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium bg-primary-100 text-primary-700 rounded-full">
-              <Tag size={12} />
-              {post.category}
-            </span>
-            {post.featured && (
-              <span className="px-3 py-1 text-xs font-medium bg-accent-100 text-accent-700 rounded-full">
-                Featured
-              </span>
-            )}
-          </div>
-
-          {/* Content */}
-          <div className={`space-y-4 ${size === 'large' ? 'mb-6' : 'mb-4'}`}>
-            <h3 className={`font-display font-bold text-foreground group-hover:text-primary-600 transition-colors ${size === 'large' ? 'text-2xl lg:text-3xl leading-tight' : 'text-lg leading-tight'}`}>
-              {post.title}
-            </h3>
-            
-            <p className={`text-foreground/70 font-serif leading-relaxed ${size === 'large' ? 'text-lg' : 'text-sm'}`}>
-              {post.excerpt}
-            </p>
-          </div>
-
-          {/* Meta Information */}
-          <div className={`flex items-center gap-4 text-foreground/60 ${size === 'large' ? 'text-sm' : 'text-xs'}`}>
-            <div className="flex items-center gap-1">
-              <Calendar size={size === 'large' ? 16 : 14} />
-              <span>{post.date}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock size={size === 'large' ? 16 : 14} />
-              <span>{post.readTime}</span>
-            </div>
-          </div>
-
-          {/* Read More */}
-          <div className={`flex items-center gap-2 text-primary-600 font-medium ${size === 'large' ? 'mt-6 text-base' : 'mt-4 text-sm'}`}>
-            <span>Read Article</span>
-            <ArrowRight 
-              size={size === 'large' ? 16 : 14} 
-              className="group-hover:translate-x-1 transition-transform duration-300" 
-            />
-          </div>
-        </div>
-      </Link>
-    </motion.div>
   );
 }

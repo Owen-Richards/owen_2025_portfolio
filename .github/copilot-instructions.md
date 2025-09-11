@@ -1,89 +1,52 @@
-# Owen's 2025 Portfolio Website - Copilot Instructions
 
-## Project Overview ✅
-Modern portfolio website with blog, showcasing award-level design using 2025 trends including bold typography, anti-design elements, experimental navigation, and 3D interactive components.
+# Owen's 2025 Portfolio – Copilot & AI Agent Instructions
 
-## Technology Stack ✅
-- **Framework**: Next.js 15+ with TypeScript ✅
-- **Styling**: Tailwind CSS with custom design system ✅
-- **Animations**: Framer Motion for micro-interactions ✅
-- **3D Elements**: Three.js/React Three Fiber ✅
-- **Content**: MDX for blog posts and case studies ✅
-- **Deployment**: Vercel with GitHub integration
+## 🏗️ Project Architecture & Key Patterns
+- **Monorepo-style Next.js 15+ app** with `/src/app` for routes and layouts, `/src/components` for UI, 3D, and section components, `/src/lib` for utilities.
+- **Design system**: Tailwind CSS tokens in `tailwind.config.js`, global styles in `src/app/globals.css`.
+- **3D/Animation**: Three.js/React Three Fiber in `src/components/3d/`, Framer Motion for micro-interactions.
+- **Content**: MDX for blog/case studies (see `src/content/` if present), with custom MDX components.
+- **Multi-agent workflow**: Four agent roles (Design, Performance, Content, Features) work in parallel on feature branches. See `MULTI_AGENT_WORKFLOW.md` for details.
 
-## Design Principles (2025 Trends) ✅
-- Soothing, multi-tonal color schemes ✅
-- Bold expressive typography with serif/sans-serif contrast ✅
-- Anti-design elements with intentional asymmetry ✅
-- Experimental navigation with immersive scrolling ✅
-- Refined motion and meaningful micro-interactions ✅
-- 3D/WebGL elements for differentiation ✅
+## 🚦 Critical Developer Workflows
+- **Start dev server**: `npm run dev` (see also `setup.sh` for multi-agent setup)
+- **Build for production**: `npm run build`
+- **Lint & format**: `npm run lint` (autofix: `npm run lint -- --fix`), Prettier via `npx prettier --write ...`
+- **Type check**: `npx tsc --noEmit --incremental`
+- **Run tests**: `npm test` (if present)
+- **Analyze bundle**: `npm run analyze` (requires `@next/bundle-analyzer`)
+- **Deploy**: `npx vercel --prod` (auto-deploys from main branch)
 
-## Site Structure ✅
-- **Home**: Hero section, featured work, about preview ✅
-- **About**: Personal story, philosophy, skills, downloadable resume ✅
-- **Portfolio**: Project grid with detailed case studies ✅
-- **Blog**: Organized posts with categories and tags ✅
-- **Contact**: Form with social links and newsletter signup ✅
+## 🧩 Project-Specific Conventions
+- **Branch naming**: `{agent-type}/{feature-name}` (e.g., `design/typography-tweaks`)
+- **Component structure**: Use TypeScript, props interfaces, and Tailwind classes. Place new UI in `src/components/ui/`, 3D in `src/components/3d/`, sections in `src/components/sections/`.
+- **Animation**: Use Framer Motion variants; reference `EnhancedHeroSection` and `Hero3D` for advanced patterns.
+- **3D**: Use React Three Fiber; optimize for performance (instancing, suspense, lazy loading). See `DynamicGeometry.tsx`, `Hero3D.tsx`.
+- **Content**: Write blog/case studies in MDX with frontmatter. Use SEO meta tags as in `src/app/layout.tsx`.
+- **Accessibility**: Use semantic HTML, ARIA labels, and test keyboard navigation. See `NavigationEnhanced.tsx`.
+- **Performance**: Progressive loading for 3D, code splitting, image optimization. See `performance.ts` and `next.config.ts`.
 
-## Development Workflow
-- [x] Create copilot-instructions.md file
-- [x] Set up Next.js project with TypeScript
-- [x] Configure Tailwind CSS with custom design tokens
-- [x] Install and configure required dependencies
-- [x] Create component library and design system
-- [x] Implement pages and routing structure
-- [x] Add animations and micro-interactions
-- [x] Integrate 3D elements and WebGL scenes
-- [x] Set up MDX blog system
-- [ ] Configure deployment and CI/CD
-- [ ] Optimize for performance and SEO
+## 🔗 Integration & Cross-Component Patterns
+- **Theme**: Use `ThemeProvider` and `ThemeToggle` for dark/light mode. Persist user preference.
+- **Scroll/Navigation**: Use `ScrollWrapper`, `ScrollProgress`, and experimental navigation in `NavigationEnhanced.tsx`.
+- **Contact**: Contact form logic in `src/app/contact/page.tsx` and `Contact.tsx`.
+- **External APIs**: Use Next.js API routes for backend logic. Place in `/src/app/api/`.
 
-## Completed Components ✅
-- **Navigation**: Experimental nav with glassmorphism effects
-- **Hero Section**: 3D interactive elements with bold typography
-- **Layout System**: Responsive design with modern fonts
-- **3D Components**: Three.js integration with floating elements
-- **Content System**: MDX setup with sample blog post and case study
-- **Design System**: 2025 color palette and typography
+## 🤖 AI Agent Guidance
+- **Specialized prompts**: Use `COPILOT_PROMPTS.md` for task-specific prompts (design, content, features, performance, SEO, mobile, analytics, etc.).
+- **Agent roles**: See `MULTI_AGENT_WORKFLOW.md` for agent responsibilities, branch strategy, and communication rules.
+- **Best practices**: Add descriptive comments for Copilot, reference existing component patterns, and use context from related files.
+- **Documentation**: Reference `README.md`, `PROJECT_SUMMARY.md`, and `DEVELOPMENT_SETUP.md` for architecture and workflow context.
 
-## Next Development Steps
-1. **Enhanced Sections**: About, Portfolio showcase, Blog listing
-2. **Interactive Elements**: More 3D scenes, scroll-triggered animations
-3. **Content Management**: Blog post listing, project galleries
-4. **Contact System**: Working contact form with validation
-5. **Performance**: Code splitting, image optimization
-6. **SEO**: Meta tags, structured data, sitemap
-7. **Deployment**: Vercel setup with CI/CD pipeline
+## 📝 Example Prompts for Copilot/Claude
+- "Create a 3D hero section with interactive floating geometries using React Three Fiber and Framer Motion."
+- "Add a blog post in MDX about advanced CSS animation, with SEO frontmatter and code samples."
+- "Refactor NavigationEnhanced to improve accessibility and keyboard navigation."
+- "Optimize Hero3D for performance using suspense and lazy loading."
 
-## Coding Standards ✅
-- Use TypeScript for type safety ✅
-- Implement responsive design mobile-first ✅
-- Follow accessibility best practices ✅
-- Optimize for Core Web Vitals
-- Use semantic HTML and ARIA labels ✅
-- Implement proper SEO meta tags ✅
-
-## Development Server Status
-- **Local Development**: Running on http://localhost:3000 ✅
-- **Build Status**: Ready for production build
-- **Performance**: Optimized for 60fps animations
-- **Compatibility**: Modern browsers with WebGL support
-
-## Key Features Implemented
-- ✅ Stunning 3D hero section with floating geometries
-- ✅ Experimental navigation with glassmorphism
-- ✅ 2025 design trends (multi-tonal colors, bold typography)
-- ✅ Anti-design elements (asymmetry, intentional imperfections)
-- ✅ Modern tech stack (Next.js 15, TypeScript, Tailwind)
-- ✅ Animation system (Framer Motion with custom variants)
-- ✅ MDX content system with sample content
-- ✅ Responsive design with mobile-first approach
-- ✅ Accessibility considerations
-- ✅ Performance optimizations
-
-## Available Commands
-- `npm run dev` - Start development server ✅
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+---
+For more, see:
+- `COPILOT_PROMPTS.md` – curated prompts for all agent roles
+- `MULTI_AGENT_WORKFLOW.md` – agent coordination, branch strategy, and success metrics
+- `DEVELOPMENT_SETUP.md` – setup, workflow, and Copilot best practices
+- `README.md` – project overview and architecture
