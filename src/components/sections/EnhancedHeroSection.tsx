@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { createLiquidTimeline, createMagneticReveal, createScrollVelocityEffect, scrollManager } from '@/lib/scroll/scroll';
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { Award, ChevronDown, Code, Download, Zap } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { ArrowUpRight, Calendar, CircleCheck, Code, Download, Globe, Rocket, Sparkles, Zap } from 'lucide-react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useThemeStyles } from '../ui/useThemeStyles';
 
 const containerVariants = {
@@ -11,318 +11,342 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { y: 40, opacity: 0 },
+  hidden: { y: 42, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
     transition: {
-      type: "spring" as const,
-      stiffness: 100,
-      damping: 20,
-      mass: 0.8,
+      type: 'spring' as const,
+      stiffness: 120,
+      damping: 22,
+      mass: 1,
     },
   },
 };
 
 const chipVariants = {
-  hidden: { scale: 0.8, opacity: 0 },
+  hidden: { y: 18, opacity: 0 },
   visible: {
-    scale: 1,
+    y: 0,
     opacity: 1,
     transition: {
-      type: "spring" as const,
-      stiffness: 120,
-      damping: 15,
+      type: 'spring' as const,
+      stiffness: 140,
+      damping: 18,
     },
   },
 };
+
+const heroBadges = [
+  { icon: CircleCheck, label: 'Open to Staff & Principal engineering roles' },
+  { icon: Calendar, label: 'Freelance engagements from Feb 2025' },
+];
+
+const heroStats = [
+  { value: '$4.8M', label: 'revenue influenced', description: 'AI commerce + fintech launches delivered in the last 12 months.' },
+  { value: '8 teams', label: 'led to ship', description: 'Remote squads scaled across US & EU timezones.' },
+  { value: '92 NPS', label: 'stakeholder score', description: 'Average partner satisfaction across enterprise engagements.' },
+];
+
+const heroSignals = [
+  { icon: Zap, title: 'AI-driven product acceleration', description: 'Zero-to-one prototypes, scalable ML platforms, and measurable revenue lifts.' },
+  { icon: Code, title: 'Experiential web craftsmanship', description: 'Award-ready WebGL, editorial polish, and rock-solid TypeScript foundations.' },
+  { icon: Globe, title: 'Technical leadership worldwide', description: 'Mentored distributed teams, set rituals, and shipped predictably at scale.' },
+];
+
+const heroSpotlights = [
+  {
+    tag: 'Latest win',
+    title: 'Cortex Analytics Platform',
+    description: 'Bootstrapped an AI insights platform for a Fortune 100 retailer in 10 weeks.',
+    metric: '40% faster decisions',
+    icon: Sparkles,
+  },
+  {
+    tag: 'Immersive experience',
+    title: 'AR Commerce Flagship',
+    description: 'Directed 3D product storytelling that drove 3.2x conversion on launch day.',
+    metric: '3.2x conversion lift',
+    icon: Rocket,
+  },
+  {
+    tag: 'Team impact',
+    title: 'Scale-up CTO Partner',
+    description: 'Scaled engineering from 3 â†’ 18 while sustaining 99.9% uptime for payments.',
+    metric: '99.9% uptime',
+    icon: CircleCheck,
+  },
+];
+
+const trustedBy = ['Adobe', 'Lululemon', 'WPP', 'Genentech'];
 
 export default function EnhancedHeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const { styles, cn } = useThemeStyles();
   const prefersReducedMotion = useReducedMotion();
-  
+  const { styles, cn } = useThemeStyles();
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ['start start', 'end start'],
   });
 
-  // Smooth spring physics for scroll transforms
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    mass: 1
+    stiffness: 120,
+    damping: 28,
+    mass: 0.9,
   });
 
-  const y = useTransform(smoothProgress, [0, 1], [0, -100]);
-  const opacity = useTransform(smoothProgress, [0, 0.8], [1, 0]);
+  const y = useTransform(smoothProgress, [0, 1], [0, -96]);
+  const opacity = useTransform(smoothProgress, [0, 0.85], [1, 0]);
 
   useEffect(() => {
-    if (!titleRef.current || !subtitleRef.current || !ctaRef.current || prefersReducedMotion) return;
+    const container = containerRef.current;
+    const title = titleRef.current;
+    const subtitle = subtitleRef.current;
+    const cta = ctaRef.current;
 
-    // Initialize advanced scroll animations
-    const titleTimeline = createLiquidTimeline(titleRef.current);
-    createMagneticReveal(subtitleRef.current);
-    
-    scrollManager.createSectionTimeline(
-      containerRef.current!,
-      titleTimeline,
-      {
-        start: 'top 80%',
-        end: 'bottom 20%',
-        scrub: false
-      }
-    );
+    if (!container || !title || !subtitle || !cta || prefersReducedMotion) {
+      return;
+    }
 
-    // Add magnetic effects to interactive elements
-    const buttons = ctaRef.current.querySelectorAll('button, a');
-    buttons.forEach(button => {
-      scrollManager.addMagneticElement(button as HTMLElement, 0.15);
+    const titleTimeline = createLiquidTimeline(title);
+    const subtitleTimeline = createMagneticReveal(subtitle);
+    const sectionTrigger = scrollManager.createSectionTimeline(container, titleTimeline, {
+      start: 'top 80%',
+      end: 'bottom 20%',
+      scrub: false,
     });
 
-    // Add velocity-based effects
-    const cleanupVelocity = createScrollVelocityEffect(titleRef.current);
+    const magneticCleanups = Array.from(cta.querySelectorAll<HTMLElement>('button, a')).map((target) =>
+      scrollManager.addMagneticElement(target, 0.16),
+    );
+
+    const cleanupVelocity = createScrollVelocityEffect(title);
 
     return () => {
       cleanupVelocity();
+      magneticCleanups.forEach((cleanup) => cleanup());
+      sectionTrigger?.kill();
+      titleTimeline.kill();
+      subtitleTimeline.kill();
     };
   }, [prefersReducedMotion]);
 
-  // Professional impact highlights with attention-grabbing numbers
-  const impactChips = [
-    {
-      icon: <Zap size={16} />,
-      text: "99.9% Uptime • $2M+ Revenue Impact",
-      color: "from-emerald-500 to-teal-500",
-      metric: "$2M+"
-    },
-    {
-      icon: <Award size={16} />,
-      text: "ML Systems • 40% Performance Boost", 
-      color: "from-blue-500 to-cyan-500",
-      metric: "40%"
-    },
-    {
-      icon: <Code size={16} />,
-      text: "AWS Architect • 5 Years Enterprise",
-      color: "from-purple-500 to-pink-500",
-      metric: "5+ Years"
-    }
-  ];
+  const spotlightCards = useMemo(() => heroSpotlights.slice(0, 3), []);
 
   return (
-    <section 
-      id="home"
-      ref={containerRef}
-      className={cn(
-        "relative min-h-screen flex items-center justify-center overflow-hidden",
-        styles.layout.section,
-        styles.theme.heroBackground
-      )}
-    >
-      {/* Clean, professional background that works in both themes */}
-      <div className="absolute inset-0 bg-background/95 dark:bg-background/90" />
-      
-      {/* Subtle gradient for depth without overwhelming */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/80 to-muted/20 dark:from-background dark:via-background/80 dark:to-primary/5" />
-      
+    <section id="home" ref={containerRef} className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 right-[8%] h-72 w-72 rounded-full bg-primary/25 blur-3xl" aria-hidden />
+        <div className="absolute bottom-[-30%] left-1/3 h-96 w-96 rounded-full bg-secondary/15 blur-[180px]" aria-hidden />
+        <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-accent/20 blur-2xl" aria-hidden />
+      </div>
+
       <motion.div
-        style={{ y, opacity }}
-        className={cn(styles.layout.container, "relative z-20")}
+        style={{ y }}
+        className={cn(
+          styles.layout.container,
+          'relative z-10 flex flex-col justify-center gap-8 py-12 lg:py-16 xl:py-20 min-h-[min(700px,100vh-72px)]'
+        )}
       >
-        {/* Clean content container with subtle glass effect */}
-        <div className="absolute inset-0 rounded-3xl bg-card/30 backdrop-blur-sm border border-border/30 shadow-lg" />
-        
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center space-y-12 max-w-5xl mx-auto relative z-10"
+          className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-start"
         >
-          {/* Professional Availability Status */}
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ scale: 1.02 }}
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-green-100 border border-green-300 text-green-800 dark:bg-green-950/60 dark:border-green-700 dark:text-green-200 text-sm font-medium"
-          >
-            <div className="relative">
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
-              <motion.div 
-                className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full"
-                animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </div>
-            <span>Available for new opportunities</span>
-          </motion.div>
+          <div className="flex flex-col gap-6">
+            <motion.div variants={itemVariants} className="flex flex-col gap-6">
+              <div className="flex flex-wrap gap-3 text-sm text-foreground/85">
+                {heroBadges.map((badge) => {
+                  const Icon = badge.icon;
+                  return (
+                    <span
+                      key={badge.label}
+                      className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/80 px-4 py-2 backdrop-blur"
+                    >
+                      <Icon className="h-4 w-4 text-primary" />
+                      {badge.label}
+                    </span>
+                  );
+                })}
+              </div>
 
-          {/* Clean and Readable Main Heading */}
-          <motion.div 
-            ref={titleRef}
-            variants={itemVariants} 
-            className="space-y-6 relative"
-          >
-            
-            <motion.h1 
-              className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-balance"
-            >
-              <motion.span 
-                className="block text-white"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-              >
-                Owen Richards
-              </motion.span>
-              
-              <motion.span 
-                className="block mt-2 font-semibold text-blue-400"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                Senior Software Engineer
-              </motion.span>
-              
-              <motion.span 
-                className="block mt-1 text-lg md:text-xl lg:text-2xl font-medium text-gray-300"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.8 }}
-              >
-                AI/ML Solutions Architect • Tech Lead
-              </motion.span>
-            </motion.h1>
-          </motion.div>
-
-          {/* Clean Professional Metrics */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-wrap justify-center gap-6 px-4"
-          >
-            {impactChips.map((chip, index) => (
-              <motion.div
-                key={index}
-                variants={chipVariants}
-                whileHover={{ y: -2 }}
-                className="group relative px-6 py-4 rounded-xl bg-card border border-gray-600 hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-blue-400">{chip.icon}</span>
-                  <div>
-                    <div className="text-lg font-semibold text-white">{chip.metric}</div>
-                    <div className="text-sm text-gray-300">{chip.text}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Clean Professional Summary */}
-          <motion.p
-            ref={subtitleRef}
-            variants={itemVariants}
-            className="text-lg md:text-xl leading-relaxed text-balance max-w-3xl mx-auto text-gray-200"
-          >
-            Built enterprise platforms generating{' '}
-            <span className="font-semibold text-white">
-              $2M+ revenue impact
-            </span>
-            {' '}• MS CS (ML) from Georgia Tech • Leading teams that deliver AI solutions for Fortune 500 clients
-          </motion.p>
-
-          {/* Clean Professional CTAs */}
-          <motion.div
-            ref={ctaRef}
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-          >
-            <motion.button
-              onClick={() => scrollManager.scrollTo('#projects')}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-3 rounded-lg bg-primary text-primary-foreground font-medium shadow-sm hover:shadow-md transition-all duration-300"
-            >
-              View Projects
-            </motion.button>
-
-            <motion.a
-              href="/Owen-L-Richards-Resume-2025.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-3 rounded-lg border border-border bg-background text-foreground font-medium shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary"
-            >
-              <span className="flex items-center gap-2">
-                <Download size={18} />
-                Download Resume
-              </span>
-            </motion.a>
-          </motion.div>
-
-          {/* Clean Scroll Indicator */}
-          <motion.div
-            variants={itemVariants}
-            className="pt-16 pb-8"
-          >
-            <motion.div
-              className="flex flex-col items-center cursor-pointer group"
-              onClick={() => scrollManager.scrollTo('#skills')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                position: 'absolute',
-                bottom: '5vh',
-                left: '50%',
-                transform: 'translateX(-50%)'
-              }}
-            >
-              <motion.span 
-                className="text-xs font-medium mb-4 tracking-wider uppercase text-muted-foreground transition-colors duration-300 group-hover:text-foreground"
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                Explore
-              </motion.span>
-              
-              <motion.div
-                className="flex items-center justify-center w-12 h-12 rounded-full border border-border bg-background/80 backdrop-blur-sm shadow-sm transition-all duration-300 group-hover:border-primary group-hover:shadow-md"
-                animate={{ y: [0, 6, 0] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <ChevronDown 
-                  size={20} 
-                  className="text-muted-foreground transition-colors duration-300 group-hover:text-primary"
-                  strokeWidth={2}
-                />
-              </motion.div>
+              <div className="space-y-4">
+                                <h1 ref={titleRef} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[0.92] max-w-3xl text-foreground">
+                  Owen Richards crafts
+                  <span className="block bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                    award-level digital products that turn ambition into results.
+                  </span>
+                </h1>
+              </div>
             </motion.div>
+
+            <motion.p
+              ref={subtitleRef}
+              variants={itemVariants}
+              className="max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground md:text-lg"
+            >
+              Principal full-stack engineer and technical lead specialised in immersive web, AI-assisted platforms, and
+              high-performing product teams. I partner with founders, design leaders, and enterprise innovators to launch
+              experiences that recruit customers, talent, and belief.
+            </motion.p>
+
+            <motion.div variants={itemVariants} className="grid gap-3 sm:gap-4 sm:grid-cols-3">
+              {heroStats.map((stat) => (
+                <motion.div
+                  key={stat.label}
+                  variants={chipVariants}
+                  className="rounded-2xl border border-border/50 bg-background/80 p-4 sm:p-5 backdrop-blur transition duration-300 hover:border-primary/40"
+                >
+                  <div className="text-xl sm:text-2xl font-semibold text-foreground md:text-3xl">{stat.value}</div>
+                  <div className="mt-1 text-xs font-semibold uppercase tracking-[0.28em] text-slate-600 dark:text-slate-400">
+                    {stat.label}
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {stat.description}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="grid gap-3 sm:gap-4 sm:grid-cols-2">
+              {heroSignals.map((signal) => {
+                const Icon = signal.icon;
+                return (
+                  <motion.div
+                    key={signal.title}
+                    variants={chipVariants}
+                    className="rounded-2xl border border-border/40 bg-card/85 p-4 sm:p-5 shadow-[var(--shadow-soft)] backdrop-blur transition duration-300 hover:border-primary/40 hover:shadow-[var(--shadow-medium)]"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="text-base font-semibold text-foreground">{signal.title}</span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {signal.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            <motion.div ref={ctaRef} variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-4">
+              <motion.button
+                onClick={() => scrollManager.scrollTo('#projects')}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full sm:w-auto inline-flex items-center gap-2 rounded-xl bg-primary px-6 sm:px-7 py-3 font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition duration-300 hover:shadow-[var(--shadow-medium)] text-center justify-center"
+              >
+                View signature projects
+              </motion.button>
+
+              <motion.a
+                href="/Owen-L-Richards-Resume-2025.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full sm:w-auto inline-flex items-center gap-2 rounded-xl border border-border/70 bg-background/85 px-6 sm:px-7 py-3 font-semibold text-foreground transition duration-300 hover:border-primary/50 text-center justify-center"
+              >
+                <Download className="h-4 w-4" />
+                Download resume
+              </motion.a>
+
+              <motion.a
+                href="mailto:owen@example.com?subject=Let%27s%20build%20something%20remarkable"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 rounded-xl border border-transparent bg-card/85 px-6 py-3 text-sm font-semibold text-slate-700 dark:text-slate-300 transition duration-300 hover:border-slate-300 dark:hover:border-slate-600"
+              >
+                Book intro call
+                <ArrowUpRight className="h-4 w-4" />
+              </motion.a>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="space-y-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                Trusted by teams at
+              </span>
+              <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm uppercase tracking-[0.18em] text-foreground/60">
+                {trustedBy.map((brand) => (
+                  <span key={brand}>{brand}</span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div variants={itemVariants} className="relative flex flex-col gap-4 sm:gap-6">
+            <div className="pointer-events-none absolute -top-16 right-8 h-36 w-36 rounded-full bg-primary/15 blur-2xl" aria-hidden />
+            <div className="pointer-events-none absolute bottom-[-12%] left-2 h-48 w-48 rounded-full bg-secondary/20 blur-3xl" aria-hidden />
+
+            {spotlightCards.map((spotlight) => {
+              const Icon = spotlight.icon;
+              return (
+                <motion.article
+                  key={spotlight.title}
+                  variants={chipVariants}
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card/90 p-5 sm:p-6 shadow-[var(--shadow-soft)] backdrop-blur transition duration-300 hover:border-primary/50 hover:shadow-[var(--shadow-medium)]"
+                >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
+                    style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.18) 0%, rgba(14,116,144,0.12) 100%)' }}
+                  />
+                  <div className="relative flex items-start justify-between gap-4">
+                    <div>
+                      <span className="text-xs font-semibold uppercase tracking-[0.32em] text-slate-600 dark:text-slate-400">
+                        {spotlight.tag}
+                      </span>
+                      <h3 className="mt-2 text-xl sm:text-2xl font-semibold text-foreground">{spotlight.title}</h3>
+                    </div>
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                  </div>
+                  <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {spotlight.description}
+                  </p>
+                  <div className="relative mt-6 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{spotlight.metric}</span>
+                    <span className="flex items-center gap-1">
+                      Case study
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </motion.article>
+              );
+            })}
           </motion.div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mt-12 flex justify-center">
+          <motion.button
+            className="flex items-center gap-3 rounded-full border border-border/60 bg-background/80 px-6 py-4 text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground backdrop-blur"
+            whileHover={{ scale: 1.03 }}
+            onClick={() => scrollManager.scrollTo('#skills')}
+          >
+            Explore the portfolio
+            <ArrowUpRight className="h-4 w-4" />
+          </motion.button>
         </motion.div>
       </motion.div>
 
-      {/* Bottom fade */}
-      <motion.div 
-        className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background via-background/80 to-transparent"
+      <motion.div
+        className="pointer-events-none absolute bottom-0 left-0 h-28 w-full bg-gradient-to-t from-background via-background/85 to-transparent"
         style={{ opacity }}
       />
     </section>

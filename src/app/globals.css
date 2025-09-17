@@ -39,6 +39,12 @@
   --shadow-medium: 0 4px 32px rgba(30, 41, 59, 0.05);
   --shadow-strong: 0 8px 48px rgba(30, 41, 59, 0.08);
   
+  /* Background patterns */
+  --page-pattern:
+    radial-gradient(circle at 25% 25%, rgba(30, 41, 59, 0.001) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(71, 85, 105, 0.001) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(241, 245, 249, 0.02) 0%, transparent 100%);
+  
   /* Layout & Z-index */
   --max-width: 80rem;
   --header-height: 4rem;
@@ -85,6 +91,11 @@
   --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.3);
   --shadow-medium: 0 4px 32px rgba(0, 0, 0, 0.4);
   --shadow-strong: 0 8px 48px rgba(0, 0, 0, 0.5);
+  /* Background patterns */
+  --page-pattern:
+    radial-gradient(circle at 25% 25%, rgba(71, 85, 105, 0.005) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(100, 116, 139, 0.005) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, transparent 100%);
 }
 
 /* Professional Base Styles */
@@ -108,21 +119,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   
-  /* Ultra-Professional background pattern - Only greys/slates */
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(30, 41, 59, 0.001) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(71, 85, 105, 0.001) 0%, transparent 50%),
-    linear-gradient(180deg, rgba(241, 245, 249, 0.02) 0%, transparent 100%);
+  background-image: var(--page-pattern);
   background-size: 800px 800px, 600px 600px, 100% 100%;
-  background-position: 0px 0px, 100% 100%, 0 0;
+  background-position: 0 0, 100% 100%, 0 0;
   background-attachment: fixed;
 }
 
-.dark body {
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(71, 85, 105, 0.005) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(100, 116, 139, 0.005) 0%, transparent 50%),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, transparent 100%);
+::selection {
+  background: rgba(148, 163, 184, 0.35);
+  color: hsl(var(--foreground));
+}
+
+\n
+a {
+  color: inherit;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
 }
 
 /* Theme-aware Components - Premium Design */
@@ -282,13 +300,7 @@ body {
   background: hsl(var(--primary) / 0.8);
 }
 
-/* Selection */
-::selection {
-  background: hsl(var(--primary) / 0.7);
-  color: hsl(var(--primary-foreground));
-}
-
-/* Reduced Motion */
+/* Selection *//* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -526,16 +538,18 @@ p {
 
 /* Professional Link Styles */
 a {
-  color: hsl(var(--primary));
+  color: inherit;
   text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: 500;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
   position: relative;
 }
 
 a:hover {
-  color: hsl(var(--accent));
-  text-decoration: none;
+  color: hsl(var(--primary));
+  text-decoration-color: currentColor;
 }
 
 a:focus-visible {
@@ -625,327 +639,6 @@ a:focus-visible,
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
   border-radius: 4px;
-}
-
-/* Hero Section Text Color Override - Force White Text */
-#home .text-white,
-#home h1 span:first-child,
-#home .text-gray-200,
-#home .text-gray-300,
-section[id="home"] .text-white,
-section[id="home"] .text-gray-200,
-section[id="home"] .text-gray-300,
-#home h1 span,
-section[id="home"] h1 span {
-  color: #ffffff !important;
-  text-shadow: none !important;
-  -webkit-text-stroke: none !important;
-  text-stroke: none !important;
-  outline: none !important;
-  border: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-#home .text-blue-400,
-section[id="home"] .text-blue-400 {
-  color: #60a5fa !important;
-  text-shadow: none !important;
-  -webkit-text-stroke: none !important;
-  text-stroke: none !important;
-  outline: none !important;
-  border: none !important;
-  -webkit-text-fill-color: #60a5fa !important;
-}
-
-/* Remove any text effects from hero heading */
-#home h1,
-#home h1 *,
-section[id="home"] h1,
-section[id="home"] h1 *,
-#home p,
-#home p *,
-section[id="home"] p,
-section[id="home"] p * {
-  text-shadow: none !important;
-  -webkit-text-stroke: none !important;
-  -webkit-text-stroke-width: 0 !important;
-  -webkit-text-stroke-color: transparent !important;
-  -webkit-text-fill-color: inherit !important;
-  text-stroke: none !important;
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  filter: none !important;
-  text-decoration: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-}
-
-/* Fix availability badge colors */
-#home .bg-green-100,
-#home .border-green-300,
-#home .text-green-800,
-section[id="home"] .bg-green-100,
-section[id="home"] .border-green-300,
-section[id="home"] .text-green-800 {
-  background-color: rgba(34, 197, 94, 0.1) !important;
-  border-color: rgba(34, 197, 94, 0.3) !important;
-  color: rgb(21, 128, 61) !important;
-}
-
-.dark #home .bg-green-950\/60,
-.dark #home .border-green-700,
-.dark #home .text-green-200,
-.dark section[id="home"] .bg-green-950\/60,
-.dark section[id="home"] .border-green-700,
-.dark section[id="home"] .text-green-200 {
-  background-color: rgba(34, 197, 94, 0.1) !important;
-  border-color: rgba(34, 197, 94, 0.4) !important;
-  color: rgb(187, 247, 208) !important;
-}
-
-/* Force remove any yellow effects */
-#home *,
-section[id="home"] * {
-  color: inherit !important;
-}
-
-/* Ensure no yellow from CSS variables */
-#home {
-  --text-color: #ffffff;
-  --heading-color: #ffffff;
-}
-
-/* Override any browser or DevTools highlighting */
-#home *:not(:focus):not(:focus-visible) {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* Disable any webkit text stroke globally in hero */
-#home * {
-  -webkit-text-stroke: 0px transparent !important;
-}
-
-/* Complete yellow color override */
-#home *,
-section[id="home"] * {
-  /* Force remove any yellow/amber colors */
-  color: inherit !important;
-}
-
-/* Override any possible yellow from CSS variables or computed styles */
-#home span[style*="color"],
-section[id="home"] span[style*="color"] {
-  color: #ffffff !important;
-}
-
-/* Remove browser focus/selection yellow highlights */
-#home *::selection,
-section[id="home"] *::selection {
-  background-color: rgba(96, 165, 250, 0.3) !important;
-  color: #ffffff !important;
-}
-
-#home *::-moz-selection,
-section[id="home"] *::-moz-selection {
-  background-color: rgba(96, 165, 250, 0.3) !important;
-  color: #ffffff !important;
-}
-
-/* Fix impact metric cards - eliminate yellow borders */
-#home .border-gray-600,
-#home .group:hover,
-section[id="home"] .border-gray-600,
-section[id="home"] .group:hover {
-  border-color: #4b5563 !important;
-}
-
-#home .border-gray-600:hover,
-#home .group:hover .border-gray-600,
-section[id="home"] .border-gray-600:hover,
-section[id="home"] .group:hover .border-gray-600 {
-  border-color: #60a5fa !important;
-}
-
-/* Override any CSS variable that might cause yellow */
-#home .border-border,
-#home .border-primary,
-section[id="home"] .border-border,
-section[id="home"] .border-primary {
-  border-color: #4b5563 !important;
-}
-
-#home .group:hover .border-primary,
-#home .border-primary:hover,
-section[id="home"] .group:hover .border-primary,
-section[id="home"] .border-primary:hover {
-  border-color: #60a5fa !important;
-}
-
-/* Force remove any outline/border effects */
-#home .group,
-#home .relative,
-section[id="home"] .group,
-section[id="home"] .relative {
-  outline: none !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
-}
-
-#home .group:hover,
-section[id="home"] .group:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Override ALL possible border and outline properties in hero */
-#home *,
-section[id="home"] * {
-  outline: none !important;
-  outline-color: transparent !important;
-  outline-width: 0 !important;
-  outline-style: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-}
-
-/* Specifically target the impact cards */
-#home .rounded-xl,
-section[id="home"] .rounded-xl {
-  border: 1px solid #4b5563 !important;
-  outline: none !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
-}
-
-#home .rounded-xl:hover,
-section[id="home"] .rounded-xl:hover {
-  border-color: #60a5fa !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Remove any focus states that might show yellow */
-#home *:focus,
-#home *:focus-visible,
-section[id="home"] *:focus,
-section[id="home"] *:focus-visible {
-  outline: none !important;
-  border-color: #60a5fa !important;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1) !important;
-}
-
-/* Override any possible DevTools or browser highlighting - but exclude impact cards */
-#home *:not(.group):not(.group *),
-section[id="home"] *:not(.group):not(.group *) {
-  /* Remove any yellow highlighting from browsers/DevTools */
-  background-image: none !important;
-  text-shadow: none !important;
-  outline: none !important;
-}
-
-/* Don't override background/border for impact cards */
-#home .group,
-#home .group *,
-section[id="home"] .group,
-section[id="home"] .group * {
-  /* Preserve the intended styling for impact cards */
-  background-color: revert !important;
-  border: revert !important;
-  box-shadow: revert !important;
-}
-
-/* Force override any computed styles that might show yellow - but exclude impact cards */
-#home .glass,
-#home .border-border:not(.group),
-section[id="home"] .glass,
-section[id="home"] .border-border:not(.group) {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(75, 85, 99, 0.3) !important;
-  outline: none !important;
-}
-
-/* Fix impact metric cards specifically - proper background and borders */
-#home .group.bg-card,
-section[id="home"] .group.bg-card {
-  background-color: hsl(var(--card)) !important;
-  border-color: #4b5563 !important;
-  opacity: 1 !important;
-}
-
-#home .group.bg-card:hover,
-section[id="home"] .group.bg-card:hover {
-  border-color: #60a5fa !important;
-}
-
-/* Fix text colors in impact cards */
-#home .group .text-white,
-#home .group .text-gray-300,
-section[id="home"] .group .text-white,
-section[id="home"] .group .text-gray-300 {
-  opacity: 1 !important;
-}
-
-#home .group .text-white,
-section[id="home"] .group .text-white {
-  color: #ffffff !important;
-}
-
-#home .group .text-gray-300,
-section[id="home"] .group .text-gray-300 {
-  color: #d1d5db !important;
-}
-
-/* Override any yellow or amber from Tailwind classes */
-#home [class*="yellow"],
-#home [class*="amber"],
-section[id="home"] [class*="yellow"],
-section[id="home"] [class*="amber"] {
-  background-color: transparent !important;
-  border-color: #4b5563 !important;
-  color: #ffffff !important;
-}
-
-/* Remove any possible highlight or selection colors */
-#home *:target,
-section[id="home"] *:target {
-  background-color: transparent !important;
-  outline: none !important;
-  border-color: #60a5fa !important;
-}
-
-/* Force override the glass container mentioned in attachment */
-#home .absolute.inset-0.rounded-3xl,
-#home .bg-card\/30,
-#home .backdrop-blur-sm,
-#home .border.border-border\/30,
-section[id="home"] .absolute.inset-0.rounded-3xl,
-section[id="home"] .bg-card\/30,
-section[id="home"] .backdrop-blur-sm,
-section[id="home"] .border.border-border\/30 {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(75, 85, 99, 0.2) !important;
-  outline: none !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Remove any yellow from CSS custom properties */
-#home {
-  --tw-bg-opacity: 1 !important;
-  --tw-border-opacity: 1 !important;
-  --tw-text-opacity: 1 !important;
-  --tw-ring-opacity: 0 !important;
-  --tw-ring-color: transparent !important;
-}
-
-/* Override any possible yellow from CSS variables in dark mode */
-.dark #home {
-  --tw-bg-opacity: 1 !important;
-  --tw-border-opacity: 1 !important;
-  --tw-text-opacity: 1 !important;
-  --tw-ring-opacity: 0 !important;
-  --tw-ring-color: transparent !important;
 }
 
 /* Print Styles */

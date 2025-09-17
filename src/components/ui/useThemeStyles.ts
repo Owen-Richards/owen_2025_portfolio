@@ -1,5 +1,9 @@
 import { useTheme } from './ThemeProvider';
 
+export function cn(...classes: (string | undefined)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
+
 /**
  * Professional theme utilities hook - Executive Portfolio Design
  * Provides consistent, sophisticated styling patterns for professional showcase
@@ -126,7 +130,7 @@ export function useThemeStyles() {
     styles: combinedStyles,
     theme,
     // Enhanced utility functions
-    cn: (...classes: (string | undefined)[]) => classes.filter(Boolean).join(' '),
+    cn,
     getThemeClass: (lightClass: string, darkClass: string) => 
       theme === 'light' ? lightClass : darkClass,
     // Gradient text utility
@@ -144,16 +148,10 @@ export function useThemeStyles() {
 }
 
 /**
- * Utility for combining class names with theme awareness
- */
-export function cn(...classes: (string | undefined)[]): string {
-  return classes.filter(Boolean).join(' ');
-}
-
-/**
  * Get theme-specific values
  */
 export function useThemeValue<T>(lightValue: T, darkValue: T): T {
   const { theme } = useTheme();
   return theme === 'light' ? lightValue : darkValue;
 }
+

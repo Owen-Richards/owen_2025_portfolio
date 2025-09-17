@@ -58,7 +58,7 @@ export default function PortfolioIntegrated() {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                🎮 3D Experience
+                Immersive 3D Experience
               </button>
               <button
                 onClick={() => setViewMode('traditional')}
@@ -69,7 +69,7 @@ export default function PortfolioIntegrated() {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                📋 Traditional View
+                Classic Project View
               </button>
             </div>
           </motion.div>
@@ -157,3 +157,7 @@ export default function PortfolioIntegrated() {
     </section>
   );
 }
+
+
+
+
