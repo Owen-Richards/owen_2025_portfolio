@@ -44,6 +44,25 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+      spacing: {
+        4.5: '1.125rem',
+        18: '4.5rem',
+        72: '18rem',
+        84: '21rem',
+        96: '24rem',
+        128: '32rem',
+      },
+      maxWidth: {
+        '8xl': '88rem',
+        '9xl': '96rem',
+        content: 'var(--max-width)',
+      },
+      zIndex: {
+        canvas: 'var(--z-canvas)',
+        content: 'var(--z-content)',
+        navigation: 'var(--z-navigation)',
+        modal: 'var(--z-modal)',
+      },
       fontFamily: {
         sans: [
           'Inter',
@@ -74,28 +93,28 @@ module.exports = {
       },
       fontSize: {
         'display-lg': [
-          '4rem',
+          'clamp(2.5rem, 5vw, 4.5rem)',
           { lineHeight: '1.1', letterSpacing: '-0.025em', fontWeight: '700' },
         ],
         'display-md': [
-          '3.25rem',
+          'clamp(2rem, 4vw, 3.25rem)',
           { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '600' },
         ],
         'display-sm': [
-          '2.5rem',
+          'clamp(1.75rem, 3.5vw, 2.5rem)',
           { lineHeight: '1.2', letterSpacing: '-0.015em', fontWeight: '600' },
         ],
         'heading-lg': [
-          '2rem',
-          { lineHeight: '1.25', letterSpacing: '-0.01em', fontWeight: '500' },
+          'clamp(1.375rem, 3vw, 1.875rem)',
+          { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '500' },
         ],
         'heading-md': [
-          '1.5rem',
-          { lineHeight: '1.35', letterSpacing: '-0.005em', fontWeight: '500' },
+          'clamp(1.25rem, 2.5vw, 1.5rem)',
+          { lineHeight: '1.4', letterSpacing: '-0.005em', fontWeight: '500' },
         ],
         'heading-sm': [
-          '1.25rem',
-          { lineHeight: '1.4', letterSpacing: '0em', fontWeight: '500' },
+          'clamp(1.125rem, 2vw, 1.25rem)',
+          { lineHeight: '1.45', letterSpacing: '0em', fontWeight: '500' },
         ],
         'body-lg': [
           '1.125rem',
@@ -109,6 +128,35 @@ module.exports = {
           '0.875rem',
           { lineHeight: '1.6', letterSpacing: '0em', fontWeight: '400' },
         ],
+      },
+      letterSpacing: {
+        'tight-2': '-0.025em',
+        'tight-1': '-0.02em',
+        'normal-1': '-0.015em',
+        'normal-2': '-0.01em',
+        'normal-3': '-0.005em',
+      },
+      lineHeight: {
+        'tight-1': '1.1',
+        'tight-2': '1.15',
+        'snug-1': '1.2',
+        'snug-2': '1.25',
+        'normal-1': '1.3',
+        'normal-2': '1.35',
+        'normal-3': '1.4',
+        'normal-4': '1.45',
+        'relaxed-1': '1.6',
+        'relaxed-2': '1.65',
+      },
+      boxShadow: {
+        soft: 'var(--shadow-soft)',
+        medium: 'var(--shadow-medium)',
+        strong: 'var(--shadow-strong)',
+        glass: 'var(--glass-shadow)',
+      },
+      backdropBlur: {
+        xs: '2px',
+        '3xl': '24px',
       },
       animation: {
         'fade-in': 'fadeIn 1s ease-out',
@@ -169,9 +217,6 @@ module.exports = {
           '50%': { backgroundPosition: '100% 50%' },
         },
       },
-      backdropBlur: {
-        xs: '2px',
-      },
       aspectRatio: {
         '4/3': '4 / 3',
         '3/2': '3 / 2',
@@ -181,11 +226,3 @@ module.exports = {
   },
   plugins: [],
 };
-
-async function loadPlugins() {
-  const typography = (await import('@tailwindcss/typography')).default;
-  const forms = (await import('@tailwindcss/forms')).default;
-  module.exports.plugins.push(typography, forms);
-}
-
-loadPlugins();

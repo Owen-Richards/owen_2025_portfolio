@@ -65,13 +65,6 @@ export const SHADOWS = {
   glass: '0 20px 40px rgba(30, 41, 59, 0.04)',
 } as const;
 
-export const TRANSITIONS = {
-  fast: '0.2s',
-  normal: '0.3s',
-  slow: '0.4s',
-  slower: '0.7s',
-} as const;
-
 export const BORDER_RADIUS = {
   sm: '0.375rem',
   md: '0.5rem',
@@ -244,13 +237,11 @@ export function getThemeTokens(themeMode: ThemeMode) {
     spacing: SPACING,
     typography: TYPOGRAPHY,
     shadows: SHADOWS,
-    transitions: TRANSITIONS,
     borderRadius: BORDER_RADIUS,
     buttons: BUTTON_VARIANTS,
     cards: CARD_VARIANTS,
     text: TEXT_VARIANTS,
     layout: LAYOUT_VARIANTS,
-    forms: FORM_VARIANTS,
     backgrounds: THEME_BACKGROUNDS[themeMode],
     mode: themeMode,
   };

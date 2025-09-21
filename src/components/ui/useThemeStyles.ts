@@ -85,50 +85,6 @@ export function useThemeStyles() {
         hero: tokens.layout.hero.base,
       },
 
-      // Form styles using tokens
-      form: {
-        input: buildComponentClass(
-          tokens.forms.input,
-          theme,
-          'focus:outline-none focus:ring-2 focus:ring-offset-2'
-        ),
-        textarea: buildComponentClass(
-          tokens.forms.textarea,
-          theme,
-          'focus:outline-none focus:ring-2 focus:ring-offset-2'
-        ),
-        label: buildComponentClass(tokens.forms.label, theme),
-        group: 'space-y-3',
-      },
-
-      // Navigation styles
-      nav: {
-        item: `px-4 py-2 rounded-lg transition-all duration-${tokens.transitions.normal} hover:scale-105 font-medium focus:outline-none focus:ring-2 focus:ring-offset-2`,
-        active:
-          'bg-primary text-primary-foreground shadow-[var(--shadow-soft)]',
-        mobile: `block w-full text-left px-4 py-3 hover:bg-muted/30 transition-all duration-${tokens.transitions.normal} rounded-lg font-medium`,
-        logo: 'text-primary font-bold text-xl tracking-tight',
-      },
-
-      // Animation classes
-      animation: {
-        fadeInUp: 'animate-fade-in-up',
-        float: 'animate-float',
-        shimmer: 'animate-shimmer',
-        pulse: 'animate-pulse',
-        bounce: 'animate-bounce',
-        gradient: `bg-gradient-to-r ${tokens.backgrounds.accent} bg-[length:200%_100%] animate-gradient-x`,
-      },
-
-      // Effects
-      effects: {
-        glow: 'drop-shadow-[0_0_20px_rgba(55,65,81,0.3)]',
-        glowAccent: 'drop-shadow-[0_0_20px_rgba(75,85,99,0.3)]',
-        parallax: `transform-gpu transition-transform duration-${tokens.transitions.slower} ease-out`,
-        floating: 'animate-float',
-        rotating: 'animate-spin-slow',
-      },
-
       // Glass styles (for backward compatibility)
       glass: {
         base: buildComponentClass(tokens.cards.glass, theme),
