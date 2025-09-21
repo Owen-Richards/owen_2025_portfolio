@@ -2,22 +2,23 @@
 
 import { animated, useSpring } from '@react-spring/three';
 import {
-    Environment,
-    Float,
-    Html,
-    Instance,
-    Instances
+  Environment,
+  Float,
+  Html,
+  Instance,
+  Instances,
 } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import {
-    Bloom,
-    EffectComposer,
-    Noise,
-    Vignette
+  Bloom,
+  EffectComposer,
+  Noise,
+  Vignette,
 } from '@react-three/postprocessing';
 import { motion } from 'framer-motion';
 import { Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
+
 import { useThemeStyles } from '../ui/useThemeStyles';
 
 // Types for portfolio data
@@ -40,7 +41,7 @@ const portfolioProjects: Project[] = [
     image: '/placeholder-project-1.jpg',
     technologies: ['React', 'Three.js', 'TypeScript'],
     color: '#475569',
-    position: [-4, 2, 0]
+    position: [-4, 2, 0],
   },
   {
     id: '2',
@@ -49,7 +50,7 @@ const portfolioProjects: Project[] = [
     image: '/placeholder-project-2.jpg',
     technologies: ['Next.js', 'PostgreSQL', 'Stripe'],
     color: '#64748b',
-    position: [0, 1, -2]
+    position: [0, 1, -2],
   },
   {
     id: '3',
@@ -58,7 +59,7 @@ const portfolioProjects: Project[] = [
     image: '/placeholder-project-3.jpg',
     technologies: ['Figma', 'React Native', 'Storybook'],
     color: '#475569',
-    position: [4, 0, 1]
+    position: [4, 0, 1],
   },
   {
     id: '4',
@@ -67,7 +68,7 @@ const portfolioProjects: Project[] = [
     image: '/placeholder-project-4.jpg',
     technologies: ['D3.js', 'WebGL', 'Python'],
     color: '#334155',
-    position: [-2, -1, 2]
+    position: [-2, -1, 2],
   },
   {
     id: '5',
@@ -76,8 +77,8 @@ const portfolioProjects: Project[] = [
     image: '/placeholder-project-5.jpg',
     technologies: ['WebXR', 'Three.js', 'TensorFlow'],
     color: '#64748b',
-    position: [2, -2, -1]
-  }
+    position: [2, -2, -1],
+  },
 ];
 
 // Advanced shader material for project cards
@@ -89,7 +90,7 @@ const ProjectCardShader = {
     color: { value: new THREE.Color() },
     opacity: { value: 1.0 },
     noiseScale: { value: 1.0 },
-    distortion: { value: 0.1 }
+    distortion: { value: 0.1 },
   },
   vertexShader: `
     uniform float time;
@@ -227,11 +228,16 @@ const ProjectCardShader = {
       
       gl_FragColor = vec4(finalColor, opacity);
     }
-  `
+  `,
 };
 
 // Individual project card component
-function ProjectCard({ project, isHovered, onHover, onLeave }: {
+function ProjectCard({
+  project,
+  isHovered,
+  onHover,
+  onLeave,
+}: {
   project: Project;
   isHovered: boolean;
   onHover: () => void;
@@ -240,26 +246,36 @@ function ProjectCard({ project, isHovered, onHover, onLeave }: {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const { viewport, mouse } = useThree();
-  
+
   // Spring animation for hover state
   const { scale, position } = useSpring({
     scale: isHovered ? [1.2, 1.2, 1.2] : [1, 1, 1],
-    position: isHovered ? 
-      [project.position[0], project.position[1] + 0.5, project.position[2] + 1] : 
-      project.position,
-    config: { mass: 1, tension: 280, friction: 60 }
+    position: isHovered
+      ? [
+          project.position[0],
+          project.position[1] + 0.5,
+          project.position[2] + 1,
+        ]
+      : project.position,
+    config: { mass: 1, tension: 280, friction: 60 },
   });
 
   useFrame((state) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.time.value = state.clock.elapsedTime;
-      materialRef.current.uniforms.mouse.value.set(
-        (mouse.x * viewport.width) / 2,
-        (mouse.y * viewport.height) / 2
-      );
-      materialRef.current.uniforms.distortion.value = isHovered ? 0.3 : 0.1;
+    if (materialRef.current?.uniforms) {
+      if (materialRef.current.uniforms.time) {
+        materialRef.current.uniforms.time.value = state.clock.elapsedTime;
+      }
+      if (materialRef.current.uniforms.mouse) {
+        materialRef.current.uniforms.mouse.value.set(
+          (mouse.x * viewport.width) / 2,
+          (mouse.y * viewport.height) / 2
+        );
+      }
+      if (materialRef.current.uniforms.distortion) {
+        materialRef.current.uniforms.distortion.value = isHovered ? 0.3 : 0.1;
+      }
     }
-    
+
     if (meshRef.current && !isHovered) {
       // Subtle floating animation when not hovered
       const time = state.clock.elapsedTime;
@@ -269,16 +285,16 @@ function ProjectCard({ project, isHovered, onHover, onLeave }: {
   });
 
   return (
-    <animated.group 
-      position={position as unknown as [number, number, number]} 
+    <animated.group
+      position={position as unknown as [number, number, number]}
       scale={scale as unknown as [number, number, number]}
     >
-      <Float speed={2} rotationIntensity={isHovered ? 0 : 0.5} floatIntensity={isHovered ? 0 : 1}>
-        <mesh
-          ref={meshRef}
-          onPointerOver={onHover}
-          onPointerOut={onLeave}
-        >
+      <Float
+        speed={2}
+        rotationIntensity={isHovered ? 0 : 0.5}
+        floatIntensity={isHovered ? 0 : 1}
+      >
+        <mesh ref={meshRef} onPointerOver={onHover} onPointerOut={onLeave}>
           <boxGeometry args={[2, 2.5, 0.1]} />
           <shaderMaterial
             ref={materialRef}
@@ -286,14 +302,16 @@ function ProjectCard({ project, isHovered, onHover, onLeave }: {
             uniforms={{
               ...ProjectCardShader.uniforms,
               color: { value: new THREE.Color(project.color) },
-              resolution: { value: new THREE.Vector2(viewport.width, viewport.height) },
-              opacity: { value: 0.9 }
+              resolution: {
+                value: new THREE.Vector2(viewport.width, viewport.height),
+              },
+              opacity: { value: 0.9 },
             }}
             transparent
             side={THREE.DoubleSide}
           />
         </mesh>
-        
+
         {/* Project information overlay */}
         <Html
           position={[0, 0, 0.06]}
@@ -312,19 +330,39 @@ function ProjectCard({ project, isHovered, onHover, onLeave }: {
             pointerEvents: 'none',
             opacity: isHovered ? 1 : 0,
             transition: 'opacity 0.3s ease',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)'
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
           }}
         >
           <div>
-            <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '12px', color: 'white' }}>
+            <h3
+              style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '12px',
+                color: 'white',
+              }}
+            >
               {project.title}
             </h3>
-            <p style={{ marginBottom: '16px', lineHeight: '1.5', color: '#e5e5e5' }}>
+            <p
+              style={{
+                marginBottom: '16px',
+                lineHeight: '1.5',
+                color: '#e5e5e5',
+              }}
+            >
               {project.description}
             </p>
             <div>
               <strong style={{ color: 'white' }}>Technologies:</strong>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '6px',
+                  marginTop: '8px',
+                }}
+              >
                 {project.technologies.map((tech, index) => (
                   <span
                     key={index}
@@ -335,7 +373,7 @@ function ProjectCard({ project, isHovered, onHover, onLeave }: {
                       borderRadius: '16px',
                       fontSize: '12px',
                       color: 'white',
-                      fontWeight: '500'
+                      fontWeight: '500',
                     }}
                   >
                     {tech}
@@ -354,35 +392,38 @@ function ProjectCard({ project, isHovered, onHover, onLeave }: {
 function BackgroundElements() {
   const count = 100;
   const meshRef = useRef<THREE.InstancedMesh>(null);
-  
+
   const colorArray = useMemo(() => {
     const colors = ['#475569', '#64748b', '#475569', '#334155', '#64748b'];
-    return Array.from({ length: count }, () => colors[Math.floor(Math.random() * colors.length)]);
+    return Array.from(
+      { length: count },
+      () => colors[Math.floor(Math.random() * colors.length)] || '#475569'
+    );
   }, [count]);
 
   useFrame((state) => {
     if (!meshRef.current) return;
-    
+
     const time = state.clock.elapsedTime;
-    
+
     for (let i = 0; i < count; i++) {
       const matrix = new THREE.Matrix4();
       const x = (Math.random() - 0.5) * 50;
       const y = (Math.random() - 0.5) * 50;
       const z = (Math.random() - 0.5) * 50;
-      
+
       matrix.setPosition(
         x + Math.sin(time * 0.1 + i) * 2,
         y + Math.cos(time * 0.15 + i) * 2,
         z + Math.sin(time * 0.05 + i) * 2
       );
-      
+
       const scale = 0.1 + Math.sin(time + i) * 0.05;
       matrix.scale(new THREE.Vector3(scale, scale, scale));
-      
+
       meshRef.current.setMatrixAt(i, matrix);
     }
-    
+
     meshRef.current.instanceMatrix.needsUpdate = true;
   });
 
@@ -397,9 +438,9 @@ function BackgroundElements() {
           position={[
             (Math.random() - 0.5) * 80,
             (Math.random() - 0.5) * 80,
-            (Math.random() - 0.5) * 80
+            (Math.random() - 0.5) * 80,
           ]}
-          color={colorArray[i]}
+          color={colorArray[i] || '#475569'}
         />
       ))}
     </Instances>
@@ -409,13 +450,21 @@ function BackgroundElements() {
 // Parallax camera controller
 function ParallaxCamera() {
   const { camera, mouse } = useThree();
-  
+
   useFrame(() => {
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouse.x * 2, 0.02);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, mouse.y * 2, 0.02);
+    camera.position.x = THREE.MathUtils.lerp(
+      camera.position.x,
+      mouse.x * 2,
+      0.02
+    );
+    camera.position.y = THREE.MathUtils.lerp(
+      camera.position.y,
+      mouse.y * 2,
+      0.02
+    );
     camera.lookAt(0, 0, 0);
   });
-  
+
   return null;
 }
 
@@ -423,10 +472,15 @@ function ParallaxCamera() {
 function LoadingFallback() {
   const { styles, cn } = useThemeStyles();
   return (
-    <div className={cn(styles.glass.card, "flex items-center justify-center h-96 bg-gradient-to-br from-card via-muted/20 to-card")}>
+    <div
+      className={cn(
+        styles.glass.card,
+        'flex h-96 items-center justify-center bg-gradient-to-br from-card via-muted/20 to-card'
+      )}
+    >
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mx-auto mb-4"></div>
-        <p className="text-primary font-medium">Loading 3D Portfolio...</p>
+        <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        <p className="font-medium text-primary">Loading 3D Portfolio...</p>
       </div>
     </div>
   );
@@ -436,31 +490,43 @@ function LoadingFallback() {
 function WebGLFallback() {
   const { styles, cn } = useThemeStyles();
   return (
-    <div className={cn(styles.glass.card, "h-96 bg-gradient-to-br from-card via-muted/20 to-card p-8 rounded-lg border border-border")}>
+    <div
+      className={cn(
+        styles.glass.card,
+        'h-96 rounded-lg border border-border bg-gradient-to-br from-card via-muted/20 to-card p-8'
+      )}
+    >
       <div className="text-center">
-        <h3 className="text-2xl font-bold text-foreground mb-4">Portfolio Showcase</h3>
-        <p className="text-muted-foreground mb-6">
-          Your device doesn&apos;t support WebGL. Here&apos;s a traditional view of my work:
+        <h3 className="mb-4 text-2xl font-bold text-foreground">
+          Portfolio Showcase
+        </h3>
+        <p className="mb-6 text-muted-foreground">
+          Your device doesn&apos;t support WebGL. Here&apos;s a traditional view
+          of my work:
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {portfolioProjects.map((project) => (
             <motion.div
               key={project.id}
-              className={cn(styles.card.base, "p-6 border border-border")}
+              className={cn(styles.card.base, 'border border-border p-6')}
               whileHover={{ scale: 1.05, y: -5 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
-              <div 
-                className="w-full h-32 rounded-lg mb-4"
+              <div
+                className="mb-4 h-32 w-full rounded-lg"
                 style={{ backgroundColor: project.color }}
               />
-              <h4 className="font-bold text-foreground mb-2">{project.title}</h4>
-              <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
+              <h4 className="mb-2 font-bold text-foreground">
+                {project.title}
+              </h4>
+              <p className="mb-3 text-sm text-muted-foreground">
+                {project.description}
+              </p>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech, index) => (
                   <span
                     key={index}
-                    className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs"
+                    className="rounded-full bg-primary/10 px-2 py-1 text-xs text-primary"
                   >
                     {tech}
                   </span>
@@ -477,12 +543,13 @@ function WebGLFallback() {
 // Main 3D Scene Component
 function Scene() {
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-  
+
   // Check WebGL support
   const checkWebGLSupport = useCallback(() => {
     try {
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      const gl =
+        canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
       return !!gl;
     } catch {
       return false;
@@ -496,10 +563,10 @@ function Scene() {
   return (
     <Canvas
       camera={{ position: [0, 0, 10], fov: 60 }}
-      gl={{ 
-        antialias: true, 
+      gl={{
+        antialias: true,
         alpha: true,
-        powerPreference: "high-performance"
+        powerPreference: 'high-performance',
       }}
       dpr={[1, 2]}
       style={{ background: 'transparent' }}
@@ -508,24 +575,28 @@ function Scene() {
         {/* Enhanced lighting setup */}
         <ambientLight intensity={0.6} color="#f8fafc" />
         <pointLight position={[10, 10, 10]} intensity={1.5} color="#f8fafc" />
-        <pointLight position={[-10, -10, -10]} intensity={0.8} color="#60a5fa" />
+        <pointLight
+          position={[-10, -10, -10]}
+          intensity={0.8}
+          color="#60a5fa"
+        />
         <pointLight position={[0, 15, 5]} intensity={1.2} color="#f8fafc" />
-        <directionalLight 
-          position={[5, 5, 5]} 
-          intensity={0.8} 
+        <directionalLight
+          position={[5, 5, 5]}
+          intensity={0.8}
           color="#f8fafc"
           castShadow
         />
-        
+
         {/* Environment for reflections */}
         <Environment preset="studio" background={false} />
-        
+
         {/* Parallax camera controller */}
         <ParallaxCamera />
-        
+
         {/* Background instanced elements */}
         <BackgroundElements />
-        
+
         {/* Portfolio project cards */}
         {portfolioProjects.map((project) => (
           <ProjectCard
@@ -536,7 +607,7 @@ function Scene() {
             onLeave={() => setHoveredProject(null)}
           />
         ))}
-        
+
         {/* Post-processing effects */}
         <EffectComposer>
           <Bloom
@@ -556,41 +627,42 @@ function Scene() {
 // Main component export
 export default function PortfolioShowcase3D() {
   return (
-    <section className="w-full h-screen relative overflow-hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Header */}
-      <div className="absolute top-8 left-8 z-20">
+      <div className="absolute left-8 top-8 z-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="bg-black/60 backdrop-blur-md rounded-lg p-6 border border-white/20"
+          className="rounded-lg border border-white/20 bg-black/60 p-6 backdrop-blur-md"
         >
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-4">
+          <h2 className="mb-4 font-display text-4xl font-bold text-white md:text-6xl">
             Featured Work
           </h2>
-          <p className="text-lg text-gray-300 max-w-md">
-            Hover over the projects to explore interactive 3D visualizations of my latest work.
+          <p className="max-w-md text-lg text-gray-300">
+            Hover over the projects to explore interactive 3D visualizations of
+            my latest work.
           </p>
         </motion.div>
       </div>
-      
+
       {/* Controls */}
-      <div className="absolute top-8 right-8 z-20">
+      <div className="absolute right-8 top-8 z-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-black/60 backdrop-blur-md rounded-lg p-4 border border-white/20"
+          className="rounded-lg border border-white/20 bg-black/60 p-4 backdrop-blur-md"
         >
-          <p className="text-sm text-white font-semibold mb-2">Controls:</p>
-          <ul className="text-xs text-gray-300 space-y-1">
+          <p className="mb-2 text-sm font-semibold text-white">Controls:</p>
+          <ul className="space-y-1 text-xs text-gray-300">
             <li>• Move mouse for parallax</li>
             <li>• Hover cards for details</li>
             <li>• Physics-based interactions</li>
           </ul>
         </motion.div>
       </div>
-      
+
       {/* 3D Scene */}
       <Suspense fallback={<LoadingFallback />}>
         <Scene />

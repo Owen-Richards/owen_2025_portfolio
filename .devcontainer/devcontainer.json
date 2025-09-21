@@ -1,7 +1,7 @@
 {
   "name": "🎨 Owen's Portfolio Dev Environment",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
-  
+
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
@@ -52,10 +52,8 @@
   },
 
   "postCreateCommand": "npm install && echo '🎨 Portfolio environment ready! Run npm run dev to start.'",
-  
+
   "remoteUser": "node",
 
-  "mounts": [
-    "source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
-  ]
+  "mounts": ["source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"]
 }

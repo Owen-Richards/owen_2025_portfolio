@@ -1,0 +1,125 @@
+name: 🔍 PR Quality Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  # ================================
+  # PR Analysis & Quality Gate
+  # ================================
+  pr-analysis:
+    name: 📊 PR Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 📊 Analyze bundle size
+        run: |
+          npm run build
+          npx bundlesize
+        continue-on-error: true
+
+      - name: 📈 Size comparison
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ================================
+  # Code Review Assistant
+  # ================================
+  code-review:
+    name: 🤖 AI Code Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🤖 AI Code Review
+        uses: coderabbitai/ai-pr-reviewer@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        with:
+          debug: false
+          review_simple_changes: false
+          review_comment_lgtm: false
+
+  # ================================
+  # Visual Regression Testing
+  # ================================
+  visual-testing:
+    name: 👁️ Visual Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Storybook
+        run: npm run build-storybook
+
+      - name: 📸 Visual regression testing
+        uses: chromaui/action@v1
+        if: github.repository_owner == github.event.pull_request.head.repo.owner.login
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: build-storybook
+
+  # ================================
+  # Accessibility Testing
+  # ================================
+  accessibility:
+    name: ♿ Accessibility
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build
+        run: npm run build
+
+      - name: 🚀 Start server
+        run: npm start &
+
+      - name: ⏳ Wait for server
+        run: npx wait-on http://localhost:3000
+
+      - name: ♿ Run accessibility tests
+        run: |
+          npm install -g @axe-core/cli
+          axe http://localhost:3000 --exit

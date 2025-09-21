@@ -1,0 +1,53 @@
+# Prettier ignore patterns
+
+# Dependencies
+node_modules/
+.pnp/
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Environment files
+.env*
+
+# Cache directories
+.cache/
+.turbo/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Generated files
+*.tsbuildinfo
+next-env.d.ts
+
+# Log files
+*.log
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Git
+.git/
+
+# Vercel
+.vercel/
+
+# Coverage
+coverage/
+
+# Storybook
+storybook-static/
+
+# MDX compiled files
+.mdx/

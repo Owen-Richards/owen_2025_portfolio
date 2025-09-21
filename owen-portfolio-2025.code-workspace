@@ -2,8 +2,8 @@
   "folders": [
     {
       "name": "🎨 Owen's 2025 Portfolio",
-      "path": "."
-    }
+      "path": ".",
+    },
   ],
   "settings": {
     // Editor Configuration
@@ -26,14 +26,14 @@
     "editor.formatOnPaste": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit",
-      "source.organizeImports": "explicit"
+      "source.organizeImports": "explicit",
     },
     "editor.inlineSuggest.enabled": true,
     "editor.suggest.preview": true,
     "editor.quickSuggestions": {
       "other": true,
       "comments": false,
-      "strings": true
+      "strings": true,
     },
 
     // File Explorer
@@ -51,7 +51,7 @@
       "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
       "tailwind.config.*": "tailwind.config.*, postcss.config.*",
       "next.config.*": "next-env.d.ts, .env*, vercel.json",
-      "README.md": "*.md, LICENSE, .gitignore"
+      "README.md": "*.md, LICENSE, .gitignore",
     },
 
     // TypeScript
@@ -70,7 +70,7 @@
     // Emmet
     "emmet.includeLanguages": {
       "javascript": "javascriptreact",
-      "typescript": "typescriptreact"
+      "typescript": "typescriptreact",
     },
     "emmet.triggerExpansionOnTab": true,
 
@@ -78,11 +78,11 @@
     "tailwindCSS.emmetCompletions": true,
     "tailwindCSS.includeLanguages": {
       "typescript": "typescript",
-      "typescriptreact": "typescriptreact"
+      "typescriptreact": "typescriptreact",
     },
     "tailwindCSS.experimental.classRegex": [
       ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-      ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+      ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
     ],
 
     // CSS
@@ -93,7 +93,7 @@
     // Files
     "files.associations": {
       "*.css": "tailwindcss",
-      "*.mdx": "mdx"
+      "*.mdx": "mdx",
     },
     "files.exclude": {
       "**/.git": true,
@@ -105,14 +105,14 @@
       "**/node_modules": true,
       "**/.next": true,
       "**/out": true,
-      "**/.vercel": true
+      "**/.vercel": true,
     },
     "files.watcherExclude": {
       "**/.git/objects/**": true,
       "**/.git/subtree-cache/**": true,
       "**/node_modules/**": true,
       "**/.next/**": true,
-      "**/out/**": true
+      "**/out/**": true,
     },
 
     // Search
@@ -122,7 +122,7 @@
       "**/*.code-search": true,
       "**/.next": true,
       "**/out": true,
-      "**/.vercel": true
+      "**/.vercel": true,
     },
 
     // Git
@@ -162,7 +162,7 @@
       "javascript",
       "javascriptreact",
       "typescript",
-      "typescriptreact"
+      "typescriptreact",
     ],
     "eslint.format.enable": true,
     "prettier.requireConfig": true,
@@ -173,7 +173,7 @@
       "*": true,
       "yaml": false,
       "plaintext": false,
-      "markdown": true
+      "markdown": true,
     },
     "github.copilot.editor.enableAutoCompletions": true,
 
@@ -185,15 +185,11 @@
       "javascript",
       "typescript",
       "javascriptreact",
-      "typescriptreact"
+      "typescriptreact",
     ],
 
     // Error Lens
-    "errorLens.enabledDiagnosticLevels": [
-      "error",
-      "warning",
-      "info"
-    ],
+    "errorLens.enabledDiagnosticLevels": ["error", "warning", "info"],
     "errorLens.followCursor": "allLines",
 
     // Path Intellisense
@@ -202,8 +198,9 @@
       "~": "${workspaceRoot}",
       "@components": "${workspaceRoot}/src/components",
       "@lib": "${workspaceRoot}/src/lib",
-      "@content": "${workspaceRoot}/src/content"
-    }
+      "@content": "${workspaceRoot}/src/content",
+    },
+    "chatgpt.openOnStartup": true,
   },
   "extensions": {
     "recommendations": [
@@ -213,52 +210,52 @@
       "esbenp.prettier-vscode",
       "dbaeumer.vscode-eslint",
       "ms-vscode.vscode-json",
-      
+
       // GitHub Integration
       "github.copilot",
       "github.copilot-chat",
       "github.vscode-pull-request-github",
       "github.vscode-github-actions",
-      
+
       // Enhanced Development Experience
       "usernamehw.errorlens",
       "christian-kohler.path-intellisense",
       "formulahendry.auto-rename-tag",
       "bradlc.vscode-tailwindcss",
       "ms-vscode.vscode-json",
-      
+
       // Visual Enhancements
       "pkief.material-icon-theme",
       "github.github-vscode-theme",
       "oderwat.indent-rainbow",
       "aaron-bond.better-comments",
-      
+
       // Productivity
       "ms-vscode.vscode-json",
       "yzhang.markdown-all-in-one",
       "davidanson.vscode-markdownlint",
       "ms-vscode.vscode-json",
-      
+
       // 3D Development
       "slevesque.shader",
       "raczzalan.webgl-glsl-editor",
-      
+
       // Git & Version Control
       "eamodio.gitlens",
       "github.vscode-pull-request-github",
-      
+
       // Performance & Debugging
       "ms-vscode.vscode-json",
       "firefox-devtools.vscode-firefox-debug",
-      
+
       // MDX Support
       "unifiedjs.vscode-mdx",
-      
+
       // Additional Utilities
       "ms-vscode.vscode-json",
       "redhat.vscode-yaml",
-      "ms-vscode.vscode-json"
-    ]
+      "ms-vscode.vscode-json",
+    ],
   },
   "tasks": {
     "version": "2.0.0",
@@ -270,7 +267,7 @@
         "args": ["run", "dev"],
         "group": {
           "kind": "build",
-          "isDefault": true
+          "isDefault": true,
         },
         "presentation": {
           "echo": true,
@@ -278,13 +275,13 @@
           "focus": false,
           "panel": "new",
           "showReuseMessage": true,
-          "clear": false
+          "clear": false,
         },
         "isBackground": true,
         "problemMatcher": [],
         "runOptions": {
-          "runOn": "folderOpen"
-        }
+          "runOn": "folderOpen",
+        },
       },
       {
         "label": "🏗️ Build Production",
@@ -298,9 +295,9 @@
           "focus": false,
           "panel": "shared",
           "showReuseMessage": true,
-          "clear": true
+          "clear": true,
         },
-        "problemMatcher": "$tsc"
+        "problemMatcher": "$tsc",
       },
       {
         "label": "🔍 Type Check",
@@ -314,9 +311,9 @@
           "focus": false,
           "panel": "shared",
           "showReuseMessage": true,
-          "clear": true
+          "clear": true,
         },
-        "problemMatcher": "$tsc"
+        "problemMatcher": "$tsc",
       },
       {
         "label": "🧹 Lint & Fix",
@@ -330,8 +327,8 @@
           "focus": false,
           "panel": "shared",
           "showReuseMessage": true,
-          "clear": true
-        }
+          "clear": true,
+        },
       },
       {
         "label": "💅 Format Code",
@@ -345,8 +342,8 @@
           "focus": false,
           "panel": "shared",
           "showReuseMessage": true,
-          "clear": true
-        }
+          "clear": true,
+        },
       },
       {
         "label": "🚀 Deploy to Vercel",
@@ -360,10 +357,10 @@
           "focus": true,
           "panel": "shared",
           "showReuseMessage": true,
-          "clear": true
-        }
-      }
-    ]
+          "clear": true,
+        },
+      },
+    ],
   },
   "launch": {
     "version": "0.2.0",
@@ -378,8 +375,8 @@
         "serverReadyAction": {
           "pattern": "started server on .+, url: (https?://.+)",
           "uriFormat": "%s",
-          "action": "debugWithChrome"
-        }
+          "action": "debugWithChrome",
+        },
       },
       {
         "name": "🌐 Launch Chrome",
@@ -388,8 +385,8 @@
         "url": "http://localhost:3000",
         "webRoot": "${workspaceFolder}",
         "sourceMaps": true,
-        "userDataDir": "${workspaceFolder}/.vscode/chrome"
-      }
-    ]
-  }
+        "userDataDir": "${workspaceFolder}/.vscode/chrome",
+      },
+    ],
+  },
 }

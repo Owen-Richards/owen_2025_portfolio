@@ -29,15 +29,16 @@ export class ScrollManager {
   private isInitialized = false;
   private cursor: HTMLElement | null = null;
   private cursorThemeObserver: MutationObserver | null = null;
-  private handleMouseMove?: (event: MouseEvent) => void;
+  private handleMouseMove: ((event: MouseEvent) => void) | undefined =
+    undefined;
   private prefersReducedMotion = false;
 
   constructor() {
     if (typeof window === 'undefined') return;
 
-    this.prefersReducedMotion = window
-      .matchMedia('(prefers-reduced-motion: reduce)')
-      .matches;
+    this.prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
 
     this.init();
   }
@@ -188,7 +189,7 @@ export class ScrollManager {
   createSectionTimeline(
     trigger: string | HTMLElement,
     timeline: gsap.core.Timeline,
-    options: ScrollTimelineOptions = {},
+    options: ScrollTimelineOptions = {}
   ) {
     if (typeof window === 'undefined') {
       return null;
@@ -198,8 +199,8 @@ export class ScrollManager {
       trigger,
       start: options.start ?? 'top bottom',
       end: options.end ?? 'bottom top',
-      scrub: this.prefersReducedMotion ? false : options.scrub ?? true,
-      pin: this.prefersReducedMotion ? false : options.pin ?? false,
+      scrub: this.prefersReducedMotion ? false : (options.scrub ?? true),
+      pin: this.prefersReducedMotion ? false : (options.pin ?? false),
       anticipatePin: options.anticipatePin ?? 1,
       animation: timeline,
     });
@@ -278,31 +279,29 @@ export const createLiquidTimeline = (element: string | Element) => {
       opacity: 1,
       duration: 1.5,
       ease: 'power4.out',
-    },
+    }
   );
 };
 
 export const createMagneticReveal = (element: string | Element) => {
   const timeline = gsap.timeline();
-  return timeline
-    .set(element, { transformOrigin: 'center center' })
-    .fromTo(
-      element,
-      {
-        scale: 0,
-        rotation: 45,
-        filter: 'blur(20px)',
-        opacity: 0,
-      },
-      {
-        scale: 1,
-        rotation: 0,
-        filter: 'blur(0px)',
-        opacity: 1,
-        duration: 1.2,
-        ease: 'back.out(1.7)',
-      },
-    );
+  return timeline.set(element, { transformOrigin: 'center center' }).fromTo(
+    element,
+    {
+      scale: 0,
+      rotation: 45,
+      filter: 'blur(20px)',
+      opacity: 0,
+    },
+    {
+      scale: 1,
+      rotation: 0,
+      filter: 'blur(0px)',
+      opacity: 1,
+      duration: 1.2,
+      ease: 'back.out(1.7)',
+    }
+  );
 };
 
 export const createScrollVelocityEffect = (element: string | Element) => {

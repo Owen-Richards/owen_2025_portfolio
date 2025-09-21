@@ -1,0 +1,94 @@
+name: 📚 Auto Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**/*.tsx'
+      - 'src/**/*.ts'
+      - 'README.md'
+      - 'DEVELOPMENT_SETUP.md'
+
+jobs:
+  # ================================
+  # Generate Documentation
+  # ================================
+  docs:
+    name: 📝 Update Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 📚 Generate TypeDoc documentation
+        run: |
+          npm install -g typedoc
+          typedoc --out docs src --exclude "**/*.test.ts" --exclude "**/node_modules/**"
+
+      - name: 📊 Update component inventory
+        run: |
+          echo "# Component Inventory" > COMPONENTS.md
+          echo "" >> COMPONENTS.md
+          echo "Auto-generated on $(date)" >> COMPONENTS.md
+          echo "" >> COMPONENTS.md
+
+          find src/components -name "*.tsx" | while read file; do
+            echo "## $(basename "$file" .tsx)" >> COMPONENTS.md
+            echo "" >> COMPONENTS.md
+            echo "**File:** \`$file\`" >> COMPONENTS.md
+            echo "" >> COMPONENTS.md
+            
+            # Extract component description from first comment
+            grep -m 1 "^/\*\*" "$file" -A 10 | grep -v "^/\*\*" | grep -v "^\*/" | sed 's/^ \* //' || echo "No description available"
+            echo "" >> COMPONENTS.md
+          done
+
+      - name: 🔄 Commit documentation updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/ COMPONENTS.md
+          git diff --staged --quiet || git commit -m "docs: auto-update documentation [skip ci]"
+          git push
+
+  # ================================
+  # Deploy Storybook
+  # ================================
+  storybook:
+    name: 📖 Deploy Storybook
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Storybook
+        run: npm run build-storybook
+
+      - name: 📖 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
+          destination_dir: storybook

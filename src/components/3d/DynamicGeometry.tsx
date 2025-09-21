@@ -11,29 +11,29 @@ interface DynamicGeometryProps {
   scale?: number;
 }
 
-export default function DynamicGeometry({ 
-  geometry, 
-  position, 
-  color, 
-  scale = 1 
+export default function DynamicGeometry({
+  geometry,
+  position,
+  color,
+  scale = 1,
 }: DynamicGeometryProps) {
   const meshRef = useRef<THREE.Mesh>(null);
-  
+
   useFrame((state) => {
     if (!meshRef.current) return;
 
     const time = state.clock.elapsedTime;
-    
+
     // Complex motion patterns
     meshRef.current.position.x = position[0] + Math.sin(time * 0.5) * 2;
     meshRef.current.position.y = position[1] + Math.cos(time * 0.7) * 1.5;
     meshRef.current.position.z = position[2] + Math.sin(time * 0.3) * 1;
-    
+
     // Dynamic rotation
     meshRef.current.rotation.x = time * 0.3;
     meshRef.current.rotation.y = time * 0.5;
     meshRef.current.rotation.z = time * 0.2;
-    
+
     // Scale pulsing
     const scalePulse = 1 + Math.sin(time * 2) * 0.1;
     meshRef.current.scale.setScalar(scale * scalePulse);

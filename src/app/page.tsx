@@ -14,7 +14,7 @@ export default function HomePage() {
     <>
       {/* Continuous 3D Background throughout the entire page */}
       <Hero3D isContinuous={true} />
-      
+
       <div id="home">
         <EnhancedHeroSection />
         <ExecutiveSummary />

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Ultra-Professional Design System - Corporate Executive */
 :root {
@@ -22,29 +22,57 @@
   --border: 226 232 240;
   --input: 241 245 249;
   --ring: 30 41 59;
-  
+
   /* Corporate Color Palette - Ultra Professional */
-  --gradient-primary: linear-gradient(135deg, rgb(30 41 59) 0%, rgb(51 65 85) 50%, rgb(71 85 105) 100%);
-  --gradient-secondary: linear-gradient(135deg, rgb(71 85 105) 0%, rgb(100 116 139) 50%, rgb(148 163 184) 100%);
-  --gradient-accent: linear-gradient(135deg, rgb(51 65 85) 0%, rgb(71 85 105) 50%, rgb(100 116 139) 100%);
-  --gradient-surface: linear-gradient(135deg, rgba(248, 250, 252, 1) 0%, rgba(241, 245, 249, 0.98) 50%, rgba(226, 232, 240, 0.96) 100%);
-  
+  --gradient-primary: linear-gradient(
+    135deg,
+    rgb(30 41 59) 0%,
+    rgb(51 65 85) 50%,
+    rgb(71 85 105) 100%
+  );
+  --gradient-secondary: linear-gradient(
+    135deg,
+    rgb(71 85 105) 0%,
+    rgb(100 116 139) 50%,
+    rgb(148 163 184) 100%
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    rgb(51 65 85) 0%,
+    rgb(71 85 105) 50%,
+    rgb(100 116 139) 100%
+  );
+  --gradient-surface: linear-gradient(
+    135deg,
+    rgba(248, 250, 252, 1) 0%,
+    rgba(241, 245, 249, 0.98) 50%,
+    rgba(226, 232, 240, 0.96) 100%
+  );
+
   /* Glass & Material Effects */
   --glass-bg: rgba(248, 250, 252, 0.95);
   --glass-border: rgba(30, 41, 59, 0.08);
   --glass-shadow: 0 20px 40px rgba(30, 41, 59, 0.04);
-  
+
   /* Executive Shadows */
   --shadow-soft: 0 2px 16px rgba(30, 41, 59, 0.03);
   --shadow-medium: 0 4px 32px rgba(30, 41, 59, 0.05);
   --shadow-strong: 0 8px 48px rgba(30, 41, 59, 0.08);
-  
+
   /* Background patterns */
   --page-pattern:
-    radial-gradient(circle at 25% 25%, rgba(30, 41, 59, 0.001) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(71, 85, 105, 0.001) 0%, transparent 50%),
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(30, 41, 59, 0.001) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(71, 85, 105, 0.001) 0%,
+      transparent 50%
+    ),
     linear-gradient(180deg, rgba(241, 245, 249, 0.02) 0%, transparent 100%);
-  
+
   /* Layout & Z-index */
   --max-width: 80rem;
   --header-height: 4rem;
@@ -75,26 +103,54 @@
   --border: 71 85 105;
   --input: 51 65 85;
   --ring: 148 163 184;
-  
+
   /* Corporate Color Palette - Ultra Professional - Dark Theme */
-  --gradient-primary: linear-gradient(135deg, rgb(148 163 184) 0%, rgb(203 213 225) 50%, rgb(226 232 240) 100%);
-  --gradient-secondary: linear-gradient(135deg, rgb(100 116 139) 0%, rgb(148 163 184) 50%, rgb(203 213 225) 100%);
-  --gradient-accent: linear-gradient(135deg, rgb(203 213 225) 0%, rgb(226 232 240) 50%, rgb(241 245 249) 100%);
-  --gradient-surface: linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(51, 65, 85, 0.96) 50%, rgba(71, 85, 105, 0.94) 100%);
-  
+  --gradient-primary: linear-gradient(
+    135deg,
+    rgb(148 163 184) 0%,
+    rgb(203 213 225) 50%,
+    rgb(226 232 240) 100%
+  );
+  --gradient-secondary: linear-gradient(
+    135deg,
+    rgb(100 116 139) 0%,
+    rgb(148 163 184) 50%,
+    rgb(203 213 225) 100%
+  );
+  --gradient-accent: linear-gradient(
+    135deg,
+    rgb(203 213 225) 0%,
+    rgb(226 232 240) 50%,
+    rgb(241 245 249) 100%
+  );
+  --gradient-surface: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.98) 0%,
+    rgba(51, 65, 85, 0.96) 50%,
+    rgba(71, 85, 105, 0.94) 100%
+  );
+
   /* Glass & Material Effects - Dark Theme */
   --glass-bg: rgba(30, 41, 59, 0.95);
   --glass-border: rgba(148, 163, 184, 0.1);
   --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-  
+
   /* Corporate Shadows - Dark Theme */
   --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.3);
   --shadow-medium: 0 4px 32px rgba(0, 0, 0, 0.4);
   --shadow-strong: 0 8px 48px rgba(0, 0, 0, 0.5);
   /* Background patterns */
   --page-pattern:
-    radial-gradient(circle at 25% 25%, rgba(71, 85, 105, 0.005) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(100, 116, 139, 0.005) 0%, transparent 50%),
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(71, 85, 105, 0.005) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(100, 116, 139, 0.005) 0%,
+      transparent 50%
+    ),
     linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, transparent 100%);
 }
 
@@ -105,23 +161,39 @@ html {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', system-ui, sans-serif;
+  font-family:
+    'Inter',
+    'Segoe UI',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Roboto',
+    'Helvetica Neue',
+    system-ui,
+    sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  transition: background-color 0.4s ease, color 0.4s ease;
-  font-feature-settings: "cv01", "cv02", "cv03", "cv04", "kern", "liga", "calt";
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+  font-feature-settings: 'cv01', 'cv02', 'cv03', 'cv04', 'kern', 'liga', 'calt';
   font-optical-sizing: auto;
   font-weight: 400;
   letter-spacing: -0.005em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   background-image: var(--page-pattern);
-  background-size: 800px 800px, 600px 600px, 100% 100%;
-  background-position: 0 0, 100% 100%, 0 0;
+  background-size:
+    800px 800px,
+    600px 600px,
+    100% 100%;
+  background-position:
+    0 0,
+    100% 100%,
+    0 0;
   background-attachment: fixed;
 }
 
@@ -130,13 +202,14 @@ body {
   color: hsl(var(--foreground));
 }
 
-\n
-a {
+\n a {
   color: inherit;
   text-decoration-color: transparent;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 6px;
-  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    text-decoration-color 0.3s ease;
 }
 
 a:hover {
@@ -170,7 +243,12 @@ a:hover {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(30, 41, 59, 0.06), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(30, 41, 59, 0.06),
+    transparent
+  );
   pointer-events: none;
 }
 
@@ -202,7 +280,12 @@ a:hover {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -300,7 +383,7 @@ a:hover {
   background: hsl(var(--primary) / 0.8);
 }
 
-/* Selection *//* Reduced Motion */
+/* Selection */ /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -319,7 +402,7 @@ a:hover {
     --primary: 30 41 59;
     --accent: 71 85 105;
   }
-  
+
   .dark {
     --border: 255 255 255;
     --primary: 203 213 225;
@@ -340,7 +423,8 @@ a:hover {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
   25% {
@@ -369,7 +453,8 @@ a:hover {
 }
 
 @keyframes gradientShift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -378,7 +463,8 @@ a:hover {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -389,10 +475,15 @@ a:hover {
 }
 
 @keyframes bounce {
-  0%, 20%, 53%, 80%, 100% {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
-  40%, 43% {
+  40%,
+  43% {
     transform: translate3d(0, -15px, 0);
   }
   70% {
@@ -413,7 +504,8 @@ a:hover {
 }
 
 @keyframes gradient-x {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -471,15 +563,32 @@ a:hover {
 }
 
 /* Executive Typography - Ultra Professional */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: hsl(var(--foreground));
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1, "cv01" 1, "cv02" 1;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1,
+    'ss01' 1,
+    'cv01' 1,
+    'cv02' 1;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-variant-numeric: proportional-nums;
-  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family:
+    'Inter',
+    'Segoe UI',
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    sans-serif;
 }
 
 h1 {
@@ -487,7 +596,12 @@ h1 {
   line-height: 1.1;
   font-weight: 700;
   letter-spacing: -0.025em;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1, "cv01" 1;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1,
+    'ss01' 1,
+    'cv01' 1;
 }
 
 h2 {
@@ -495,7 +609,11 @@ h2 {
   line-height: 1.15;
   font-weight: 600;
   letter-spacing: -0.02em;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1,
+    'ss01' 1;
 }
 
 h3 {
@@ -531,7 +649,10 @@ p {
   line-height: 1.65;
   font-weight: 400;
   letter-spacing: -0.005em;
-  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-feature-settings:
+    'kern' 1,
+    'liga' 1,
+    'calt' 1;
   font-variant-numeric: proportional-nums;
   text-rendering: optimizeLegibility;
 }
@@ -543,7 +664,9 @@ a {
   text-decoration-color: transparent;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 6px;
-  transition: color 0.25s ease, text-decoration-color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    text-decoration-color 0.25s ease;
   position: relative;
 }
 
@@ -597,7 +720,8 @@ pre code {
 }
 
 /* Professional Lists */
-ul, ol {
+ul,
+ol {
   color: hsl(var(--foreground));
   line-height: 1.6;
 }
@@ -613,7 +737,8 @@ table {
   margin: 1rem 0;
 }
 
-th, td {
+th,
+td {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid hsl(var(--border));
@@ -626,7 +751,9 @@ th {
 }
 
 /* Professional Form Styles */
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -635,7 +762,7 @@ input, textarea, select {
 /* Enhanced Accessibility */
 button:focus-visible,
 a:focus-visible,
-[role="button"]:focus-visible {
+[role='button']:focus-visible {
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
   border-radius: 4px;
@@ -646,11 +773,11 @@ a:focus-visible,
   .no-print {
     display: none !important;
   }
-  
+
   canvas {
     display: none !important;
   }
-  
+
   body {
     background: white !important;
     color: black !important;

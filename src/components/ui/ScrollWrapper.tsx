@@ -1,7 +1,8 @@
 'use client';
 
-import { scrollManager } from '@/lib/scroll/scroll';
 import { useEffect } from 'react';
+
+import { scrollManager } from '@/lib/scroll/scroll';
 
 interface ScrollWrapperProps {
   children: React.ReactNode;

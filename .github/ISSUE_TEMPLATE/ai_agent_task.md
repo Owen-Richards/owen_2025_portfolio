@@ -7,6 +7,7 @@ assignees: ''
 ---
 
 ## 🤖 Agent Assignment
+
 Which specialized agent should handle this task?
 
 - [ ] 🎨 **Design Agent** - Visual design & accessibility
@@ -15,25 +16,32 @@ Which specialized agent should handle this task?
 - [ ] 🚀 **Features Agent** - Advanced interactions & 3D
 
 ## 🎯 Task Objective
+
 Clear description of what the agent should accomplish.
 
 ## 📋 Scope & Requirements
+
 **Must Have:**
+
 - [ ] Requirement 1
 - [ ] Requirement 2
 - [ ] Requirement 3
 
 **Nice to Have:**
+
 - [ ] Enhancement 1
 - [ ] Enhancement 2
 
 ## 🛠️ Technical Context
+
 **Files to Modify:**
+
 - `src/components/...`
 - `src/app/...`
 - `tailwind.config.js`
 
 **Technologies Involved:**
+
 - [ ] Next.js/React
 - [ ] Three.js/WebGL
 - [ ] Tailwind CSS
@@ -42,6 +50,7 @@ Clear description of what the agent should accomplish.
 - [ ] MDX
 
 ## 💡 Copilot Prompts
+
 Suggested prompts for the AI agent:
 
 ```
@@ -53,7 +62,9 @@ Create a [component/feature] that:
 ```
 
 ## 📊 Success Criteria
+
 How to measure completion:
+
 - [ ] Functionality works as expected
 - [ ] Maintains design consistency
 - [ ] Performance impact minimal
@@ -61,20 +72,23 @@ How to measure completion:
 - [ ] Documentation updated
 
 ## 🔗 Related Issues
+
 - Relates to #
 - Blocks #
 - Blocked by #
 
 ## 📝 Additional Notes
+
 Any specific implementation details or constraints.
 
 ---
 
 ## 🤖 For AI Agents:
+
 **Please review the following before starting:**
+
 1. 📖 [COPILOT_PROMPTS.md](../COPILOT_PROMPTS.md) - Specialized prompts
 2. 🔄 [MULTI_AGENT_WORKFLOW.md](../MULTI_AGENT_WORKFLOW.md) - Coordination guidelines
 3. 🏗️ [DEVELOPMENT_SETUP.md](../DEVELOPMENT_SETUP.md) - Environment setup
 
-**Branch naming**: `{agent-type}/{feature-name}`
-**Example**: `design/color-system-enhancement`
+**Branch naming**: `{agent-type}/{feature-name}` **Example**: `design/color-system-enhancement`
