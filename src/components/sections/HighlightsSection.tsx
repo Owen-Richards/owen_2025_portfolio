@@ -2,105 +2,37 @@
 
 import { motion } from 'framer-motion';
 import {
-  ArrowUpIcon,
-  ClockIcon,
-  ServerIcon,
-  ShieldCheckIcon,
-  TrendingUpIcon,
-  ZapIcon,
+  ArrowUp,
+  Clock,
+  Server,
+  ShieldCheck,
+  TrendingUp,
+  Zap,
 } from 'lucide-react';
 
 import { useThemeStyles } from '@/components/ui/useThemeStyles';
+import type { Highlight } from '@/content/highlights';
+import { colorClasses } from '@/content/highlights';
 
-interface Highlight {
-  id: string;
-  label: string;
-  metric: string;
-  context: string;
-  impact: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: 'slate' | 'gray' | 'stone';
+// Icon resolver for converting string names to icon components
+const iconMap = {
+  ArrowUp,
+  Clock,
+  Server,
+  ShieldCheck,
+  TrendingUp,
+  Zap,
+} as const;
+
+function getIcon(iconName: string) {
+  return iconMap[iconName as keyof typeof iconMap] || Zap;
 }
 
-const HIGHLIGHTS: Highlight[] = [
-  {
-    id: 'performance',
-    label: 'Performance',
-    metric: '−67% p95 latency',
-    context: 'API optimization & caching layer',
-    impact: 'Improved user experience & reduced infrastructure costs',
-    icon: ZapIcon,
-    color: 'slate',
-  },
-  {
-    id: 'delivery',
-    label: 'Delivery Speed',
-    metric: '4x faster releases',
-    context: 'CI/CD pipeline & automated testing',
-    impact: 'Reduced lead time & fewer production issues',
-    icon: ClockIcon,
-    color: 'gray',
-  },
-  {
-    id: 'scalability',
-    label: 'Build Efficiency',
-    metric: '18min → 4min builds',
-    context: 'Incremental compilation & caching',
-    impact: 'Higher developer productivity & faster iteration',
-    icon: TrendingUpIcon,
-    color: 'slate',
-  },
-  {
-    id: 'reliability',
-    label: 'System Reliability',
-    metric: '99.9% uptime',
-    context: 'Monitoring, alerting & fault tolerance',
-    impact: 'Improved customer trust & reduced support burden',
-    icon: ServerIcon,
-    color: 'stone',
-  },
-  {
-    id: 'cost',
-    label: 'Cost Optimization',
-    metric: '−31% AWS spend',
-    context: 'Resource optimization & auto-scaling',
-    impact: 'Significant operational cost savings',
-    icon: ArrowUpIcon,
-    color: 'gray',
-  },
-  {
-    id: 'security',
-    label: 'Security Enhancement',
-    metric: '0 critical vulnerabilities',
-    context: 'Automated security scanning & compliance',
-    impact: 'Protected user data & met compliance requirements',
-    icon: ShieldCheckIcon,
-    color: 'stone',
-  },
-];
-
-const colorClasses = {
-  slate: {
-    bg: 'from-slate-600/10 to-slate-700/5',
-    border: 'border-slate-600/20',
-    icon: 'text-slate-600',
-    accent: 'text-slate-700',
-  },
-  gray: {
-    bg: 'from-gray-600/10 to-gray-700/5',
-    border: 'border-gray-600/20',
-    icon: 'text-gray-600',
-    accent: 'text-gray-700',
-  },
-  stone: {
-    bg: 'from-stone-600/10 to-stone-700/5',
-    border: 'border-stone-600/20',
-    icon: 'text-stone-600',
-    accent: 'text-stone-700',
-  },
-};
-
-export function HighlightsSection() {
+export function HighlightsSection({
+  highlights,
+}: {
+  highlights: readonly Highlight[];
+}) {
   const { styles } = useThemeStyles();
 
   return (
@@ -128,8 +60,8 @@ export function HighlightsSection() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {HIGHLIGHTS.map((highlight, index) => {
-            const Icon = highlight.icon;
+          {highlights.map((highlight, index) => {
+            const Icon = getIcon(highlight.icon);
             const colors = colorClasses[highlight.color];
 
             return (

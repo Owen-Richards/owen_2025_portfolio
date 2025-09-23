@@ -4,6 +4,9 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
+import ProjectsEnhanced from '@/components/sections/ProjectsEnhanced';
+import { projects } from '@/content/projects';
+
 import { useThemeStyles } from '../ui/useThemeStyles';
 
 // Dynamically import the 3D component
@@ -23,7 +26,6 @@ const PortfolioShowcase3D = dynamic(
 );
 
 // Import existing projects component
-import ProjectsEnhanced from './ProjectsEnhanced';
 
 export default function PortfolioIntegrated() {
   const { styles, cn } = useThemeStyles();
@@ -97,7 +99,7 @@ export default function PortfolioIntegrated() {
           </div>
         ) : (
           <div className="bg-background px-6 pb-24 lg:px-8">
-            <ProjectsEnhanced />
+            <ProjectsEnhanced projects={projects} />
           </div>
         )}
       </motion.div>

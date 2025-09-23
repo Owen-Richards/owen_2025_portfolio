@@ -4,17 +4,10 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 import { useThemeStyles } from '@/components/ui/useThemeStyles';
+import type { Skill } from '@/content/skills';
 
-interface Skill {
-  name: string;
-  category: string;
-  level: 'expert' | 'advanced' | 'intermediate' | 'learning';
-  years: number;
-  projects?: number;
-  icon?: string;
-  description?: string;
-}
-
+// SKILLS array moved to content module
+/*
 const SKILLS: Skill[] = [
   // Frontend - Enhanced with icons and descriptions
   {
@@ -223,6 +216,7 @@ const SKILLS: Skill[] = [
     description: 'CDN optimization and edge function deployment',
   },
 ];
+*/
 
 const levelConfig = {
   expert: {
@@ -535,7 +529,7 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
   );
 }
 
-export function SkillsMatrix() {
+export function SkillsMatrix({ skills }: { skills: readonly Skill[] }) {
   const { styles } = useThemeStyles();
   const sectionRef = useRef<HTMLElement>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -684,7 +678,7 @@ export function SkillsMatrix() {
         {/* Revolutionary skills grid */}
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {categories.map((category, categoryIndex) => {
-            const categorySkills = SKILLS.filter(
+            const categorySkills = skills.filter(
               (skill) => skill.category === category
             );
 

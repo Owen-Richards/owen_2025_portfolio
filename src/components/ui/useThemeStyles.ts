@@ -1,12 +1,9 @@
 import { useMemo } from 'react';
 
+import { cn } from '@/lib/utils/cn';
 import { buildComponentClass, getThemeTokens } from '@/styles/theme';
 
 import { useTheme } from './ThemeProvider';
-
-export function cn(...classes: (string | undefined)[]): string {
-  return classes.filter(Boolean).join(' ');
-}
 
 /**
  * Optimized theme styles hook using static tokens

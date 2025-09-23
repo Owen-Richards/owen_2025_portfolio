@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+const formsPlugin = require('@tailwindcss/forms');
+const typographyPlugin = require('@tailwindcss/typography');
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -224,5 +227,12 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    formsPlugin({
+      strategy: 'class', // Use class-based strategy for better compatibility
+    }),
+    typographyPlugin({
+      className: 'prose', // Custom class name for typography
+    }),
+  ],
 };

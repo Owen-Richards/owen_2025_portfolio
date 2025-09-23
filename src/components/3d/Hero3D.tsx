@@ -211,9 +211,20 @@ export default function Hero3D({
     >
       <Canvas
         shadows
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={[
+          1,
+          typeof window !== 'undefined'
+            ? Math.min(window.devicePixelRatio, 2)
+            : 2,
+        ]} // Cap DPR for performance
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: 'high-performance', // Request discrete GPU if available
+          stencil: false, // Disable stencil buffer for better performance
+        }}
         style={{ background: 'transparent' }}
+        frameloop="demand" // Only render when needed
       >
         <color
           attach="background"

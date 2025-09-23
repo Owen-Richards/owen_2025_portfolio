@@ -20,6 +20,12 @@ import {
 } from 'lucide-react';
 import { useEffect, useMemo, useRef } from 'react';
 
+import type {
+  HeroBadge,
+  HeroSignal,
+  HeroSpotlight,
+  HeroStat,
+} from '@/content/hero';
 import {
   createLiquidTimeline,
   createMagneticReveal,
@@ -28,6 +34,21 @@ import {
 } from '@/lib/scroll/scroll';
 
 import { useThemeStyles } from '../ui/useThemeStyles';
+
+// Icon resolver for converting string names to icon components
+const iconMap = {
+  Calendar,
+  CircleCheck,
+  Code,
+  Globe,
+  Rocket,
+  Sparkles,
+  Zap,
+} as const;
+
+function getIcon(iconName: string) {
+  return iconMap[iconName as keyof typeof iconMap] || Zap;
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -67,81 +88,92 @@ const chipVariants = {
   },
 };
 
-const heroBadges = [
-  { icon: CircleCheck, label: 'Open to Staff & Principal engineering roles' },
-  { icon: Calendar, label: 'Freelance engagements from Feb 2025' },
-];
+// Remove the following data arrays - they are now passed as props
 
-const heroStats = [
-  {
-    value: '$4.8M',
-    label: 'revenue influenced',
-    description:
-      'AI commerce + fintech launches delivered in the last 12 months.',
-  },
-  {
-    value: '8 teams',
-    label: 'led to ship',
-    description: 'Remote squads scaled across US & EU timezones.',
-  },
-  {
-    value: '92 NPS',
-    label: 'stakeholder score',
-    description: 'Average partner satisfaction across enterprise engagements.',
-  },
-];
+/*
+  const heroStats = [
+    {
+      value: '$4.8M',
+      label: 'revenue influenced',
+      description:
+        'AI commerce + fintech launches delivered in the last 12 months.',
+    },
+    {
+      value: '8 teams',
+      label: 'led to ship',
+      description: 'Remote squads scaled across US & EU timezones.',
+    },
+    {
+      value: '92 NPS',
+      label: 'stakeholder score',
+      description: 'Average partner satisfaction across enterprise engagements.',
+    },
+  ];
+  
+  const heroSignals = [
+    {
+      icon: Zap,
+      title: 'AI-driven product acceleration',
+      description:
+        'Zero-to-one prototypes, scalable ML platforms, and measurable revenue lifts.',
+    },
+    {
+      icon: Code,
+      title: 'Experiential web craftsmanship',
+      description:
+        'Award-ready WebGL, editorial polish, and rock-solid TypeScript foundations.',
+    },
+    {
+      icon: Globe,
+      title: 'Technical leadership worldwide',
+      description:
+        'Mentored distributed teams, set rituals, and shipped predictably at scale.',
+    },
+  ];
+  
+  const heroSpotlights = [
+    {
+      tag: 'Latest win',
+      title: 'Cortex Analytics Platform',
+      description:
+        'Bootstrapped an AI insights platform for a Fortune 100 retailer in 10 weeks.',
+      metric: '40% faster decisions',
+      icon: Sparkles,
+    },
+    {
+      tag: 'Immersive experience',
+      title: 'AR Commerce Flagship',
+      description:
+        'Directed 3D product storytelling that drove 3.2x conversion on launch day.',
+      metric: '3.2x conversion lift',
+      icon: Rocket,
+    },
+    {
+      tag: 'Team impact',
+      title: 'Scale-up CTO Partner',
+      description:
+        'Scaled engineering from 3 â†’ 18 while sustaining 99.9% uptime for payments.',
+      metric: '99.9% uptime',
+      icon: CircleCheck,
+    },
+  ];
+  
+  const trustedBy = ['Adobe', 'Lululemon', 'WPP', 'Genentech'];
+  */
 
-const heroSignals = [
-  {
-    icon: Zap,
-    title: 'AI-driven product acceleration',
-    description:
-      'Zero-to-one prototypes, scalable ML platforms, and measurable revenue lifts.',
-  },
-  {
-    icon: Code,
-    title: 'Experiential web craftsmanship',
-    description:
-      'Award-ready WebGL, editorial polish, and rock-solid TypeScript foundations.',
-  },
-  {
-    icon: Globe,
-    title: 'Technical leadership worldwide',
-    description:
-      'Mentored distributed teams, set rituals, and shipped predictably at scale.',
-  },
-];
-
-const heroSpotlights = [
-  {
-    tag: 'Latest win',
-    title: 'Cortex Analytics Platform',
-    description:
-      'Bootstrapped an AI insights platform for a Fortune 100 retailer in 10 weeks.',
-    metric: '40% faster decisions',
-    icon: Sparkles,
-  },
-  {
-    tag: 'Immersive experience',
-    title: 'AR Commerce Flagship',
-    description:
-      'Directed 3D product storytelling that drove 3.2x conversion on launch day.',
-    metric: '3.2x conversion lift',
-    icon: Rocket,
-  },
-  {
-    tag: 'Team impact',
-    title: 'Scale-up CTO Partner',
-    description:
-      'Scaled engineering from 3 â†’ 18 while sustaining 99.9% uptime for payments.',
-    metric: '99.9% uptime',
-    icon: CircleCheck,
-  },
-];
-
-const trustedBy = ['Adobe', 'Lululemon', 'WPP', 'Genentech'];
-
-export default function EnhancedHeroSection() {
+export default function EnhancedHeroSection({
+  heroBadges,
+  heroStats,
+  heroSignals,
+  heroSpotlights,
+  trustedBy,
+}: {
+  heroBadges: readonly HeroBadge[];
+  heroStats: readonly HeroStat[];
+  heroSignals: readonly HeroSignal[];
+  heroSpotlights: readonly HeroSpotlight[];
+  trustedBy: readonly string[];
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -200,7 +232,10 @@ export default function EnhancedHeroSection() {
     };
   }, [prefersReducedMotion]);
 
-  const spotlightCards = useMemo(() => heroSpotlights.slice(0, 3), []);
+  const spotlightCards = useMemo(
+    () => heroSpotlights?.slice(0, 3) || [],
+    [heroSpotlights]
+  );
 
   return (
     <section id="home" ref={containerRef} className="relative overflow-hidden">
@@ -236,7 +271,7 @@ export default function EnhancedHeroSection() {
             <motion.div variants={itemVariants} className="flex flex-col gap-6">
               <div className="flex flex-wrap gap-3 text-sm text-foreground/85">
                 {heroBadges.map((badge) => {
-                  const Icon = badge.icon;
+                  const Icon = getIcon(badge.icon);
                   return (
                     <span
                       key={badge.label}
@@ -303,7 +338,7 @@ export default function EnhancedHeroSection() {
               className="grid gap-3 sm:grid-cols-2 sm:gap-4"
             >
               {heroSignals.map((signal) => {
-                const Icon = signal.icon;
+                const Icon = getIcon(signal.icon);
                 return (
                   <motion.div
                     key={signal.title}
@@ -389,7 +424,7 @@ export default function EnhancedHeroSection() {
             />
 
             {spotlightCards.map((spotlight) => {
-              const Icon = spotlight.icon;
+              const Icon = getIcon(spotlight.icon);
               return (
                 <motion.article
                   key={spotlight.title}

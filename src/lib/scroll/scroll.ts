@@ -39,15 +39,14 @@ export class ScrollManager {
     this.prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
-
-    this.init();
   }
 
-  private init() {
+  init() {
     if (this.isInitialized || typeof window === 'undefined') {
       return;
     }
 
+    // Initialize Lenis smooth scroll
     this.lenis = new Lenis({
       duration: this.prefersReducedMotion ? 0.5 : 1.8,
       easing: (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
@@ -58,16 +57,19 @@ export class ScrollManager {
       touchMultiplier: 2,
     });
 
+    // Connect Lenis to GSAP ScrollTrigger
     this.lenis.on('scroll', () => {
       ScrollTrigger.update();
     });
 
+    // Add Lenis to GSAP ticker
     gsap.ticker.add((time) => {
       this.lenis?.raf(time * 1000);
     });
 
     gsap.ticker.lagSmoothing(0);
 
+    // Initialize magnetic cursor if animations are enabled
     if (!this.prefersReducedMotion) {
       this.initMagneticCursor();
     }
@@ -76,7 +78,10 @@ export class ScrollManager {
   }
 
   private initMagneticCursor() {
-    if (this.cursor) return;
+    // Prevent duplicate cursors
+    if (this.cursor) {
+      return;
+    }
 
     const cursor = document.createElement('div');
     cursor.className = 'magnetic-cursor';
@@ -108,12 +113,14 @@ export class ScrollManager {
     applyTheme();
     document.body.appendChild(cursor);
 
+    // Set up theme observer
     const observer = new MutationObserver(applyTheme);
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class'],
     });
 
+    // Set up mouse move handler
     const handleMouseMove = (event: MouseEvent) => {
       gsap.to(cursor, {
         x: event.clientX,
@@ -125,6 +132,7 @@ export class ScrollManager {
 
     document.addEventListener('mousemove', handleMouseMove);
 
+    // Store references for cleanup
     this.cursor = cursor;
     this.cursorThemeObserver = observer;
     this.handleMouseMove = handleMouseMove;
@@ -239,23 +247,40 @@ export class ScrollManager {
   }
 
   destroy() {
-    this.lenis?.destroy();
-    this.lenis = null;
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-    if (this.handleMouseMove) {
-      document.removeEventListener('mousemove', this.handleMouseMove);
+    if (!this.isInitialized) {
+      return;
     }
 
-    this.cursorThemeObserver?.disconnect();
-    this.cursorThemeObserver = null;
+    // Clean up Lenis
+    if (this.lenis) {
+      this.lenis.destroy();
+      this.lenis = null;
+    }
+
+    // Remove GSAP ticker callback
+    gsap.ticker.remove((time) => {
+      this.lenis?.raf(time * 1000);
+    });
+
+    // Kill all ScrollTrigger instances
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+    // Clean up magnetic cursor
+    if (this.handleMouseMove) {
+      document.removeEventListener('mousemove', this.handleMouseMove);
+      this.handleMouseMove = undefined;
+    }
+
+    if (this.cursorThemeObserver) {
+      this.cursorThemeObserver.disconnect();
+      this.cursorThemeObserver = null;
+    }
 
     if (this.cursor?.parentNode) {
       this.cursor.parentNode.removeChild(this.cursor);
+      this.cursor = null;
     }
 
-    this.cursor = null;
-    this.handleMouseMove = undefined;
     this.isInitialized = false;
   }
 

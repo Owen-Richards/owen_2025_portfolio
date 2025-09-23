@@ -10,12 +10,12 @@ interface ScrollWrapperProps {
 
 export default function ScrollWrapper({ children }: ScrollWrapperProps) {
   useEffect(() => {
-    // Initialize scroll manager
-    scrollManager.start();
+    // Initialize scroll manager with explicit init()
+    scrollManager.init();
 
-    // Cleanup on unmount
+    // Cleanup on unmount with explicit destroy()
     return () => {
-      scrollManager.stop();
+      scrollManager.destroy();
     };
   }, []);
 

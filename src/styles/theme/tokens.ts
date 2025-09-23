@@ -3,6 +3,8 @@
  * Professional design tokens for Owen's 2025 Portfolio
  */
 
+import { cn } from '@/lib/utils/cn';
+
 export type ThemeMode = 'light' | 'dark';
 
 // Base design tokens
@@ -248,21 +250,24 @@ export function getThemeTokens(themeMode: ThemeMode) {
 }
 
 /**
- * Build component classes from tokens
+ * Build component classes from tokens using the shared cn utility
+ *
+ * @param variant - Theme variant object containing base, theme-specific, and size classes
+ * @param themeMode - Current theme mode ('light' | 'dark')
+ * @param additionalClasses - Optional additional classes to merge
+ * @returns Optimally merged class string
  */
 export function buildComponentClass(
   variant: Record<string, unknown>,
   themeMode: ThemeMode,
   additionalClasses?: string
 ): string {
-  const classes = [
-    variant.base,
-    variant[themeMode],
-    variant.size,
-    additionalClasses,
-  ].filter(Boolean);
-
-  return classes.join(' ');
+  return cn(
+    variant.base as string,
+    variant[themeMode] as string,
+    variant.size as string,
+    additionalClasses
+  );
 }
 
 export type ThemeTokens = ReturnType<typeof getThemeTokens>;

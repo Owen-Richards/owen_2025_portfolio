@@ -1,0 +1,63 @@
+version = 1
+
+[project]
+name = "owen_2025_portfolio"
+description = "Next.js 15 portfolio with React 19, Tailwind CSS 4, 3D interactions, and AI-enhanced workflows."
+
+[assistant]
+# Core model configuration
+model = "gpt-5-codex"
+model_reasoning_effort = "high"
+temperature = 0.1
+max_output_tokens = 4096
+top_p = 0.9
+presence_penalty = 0.0
+frequency_penalty = 0.0
+
+default_system_prompt = """
+You are an expert Next.js and React engineer collaborating on the Owen 2025 Portfolio project.
+Focus on clean, accessible, and performant TypeScript code.
+Follow project conventions, ensure responsive design, and document assumptions.
+"""
+
+[assistant.capabilities]
+code_interpreter = true
+retrieval = true
+
+[context]
+# Files and directories the assistant should focus on
+include = [
+  "package.json",
+  "tsconfig.json",
+  "tailwind.config.js",
+  "postcss.config.mjs",
+  "next.config.ts",
+  "src/**",
+  "public/**",
+  "README.md",
+  "PROJECT_SUMMARY.md"
+]
+exclude = [
+  "node_modules/**",
+  ".next/**",
+  "out/**",
+  ".git/**",
+  "**/*.log"
+]
+
+[workflow]
+# Helpful commands for the assistant to suggest or run
+setup = [
+  "npm install"
+]
+commands = [
+  { name = "dev", description = "Start local development server", run = "npm run dev" },
+  { name = "build", description = "Create production build", run = "npm run build" },
+  { name = "lint", description = "Run ESLint checks", run = "npm run lint" }
+]
+
+[testing]
+# Default tests to validate changes
+commands = [
+  "npm run lint"
+]

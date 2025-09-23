@@ -13,6 +13,8 @@ import { Metadata } from 'next';
 import { ExecutiveSummary } from '@/components/sections/ExecutiveSummary';
 import { HighlightsSection } from '@/components/sections/HighlightsSection';
 import { SkillsMatrix } from '@/components/sections/SkillsMatrix';
+import { highlights } from '@/content/highlights';
+import { skills } from '@/content/skills';
 
 export const metadata: Metadata = {
   title: 'Recruiter Snapshot | Owen L Richards - Senior Full-Stack Engineer',
@@ -227,10 +229,10 @@ export default function RecruiterPage() {
       <ExecutiveSummary />
 
       {/* Impact Highlights */}
-      <HighlightsSection />
+      <HighlightsSection highlights={highlights} />
 
       {/* Skills Overview */}
-      <SkillsMatrix />
+      <SkillsMatrix skills={skills} />
 
       {/* Final CTA */}
       <section className="bg-gradient-to-r from-primary/5 to-accent/5 py-16">

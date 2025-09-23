@@ -90,6 +90,13 @@ const eslintConfig = [
     },
   },
   {
+    // Allow require() in configuration files
+    files: ['*.config.js', '*.config.mjs', 'tailwind.config.js'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
     ignores: [
       'node_modules/**',
       '.next/**',

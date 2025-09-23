@@ -3,6 +3,8 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
+import { cn } from '@/lib/utils/cn';
+
 import { useThemeStyles } from '../ui/useThemeStyles';
 
 // Enhanced skill categories with premium visual data
@@ -353,7 +355,7 @@ function SkillCard({
 
           {/* Skill name with premium typography */}
           <motion.h4
-            className={`text-sm font-bold ${styles.text.body} leading-tight`}
+            className={cn('text-sm font-bold leading-tight', styles.text.body)}
             style={{ transform: 'translateZ(10px)' }}
           >
             {skill.name}
@@ -411,7 +413,10 @@ function SkillCard({
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
               <motion.p
-                className={`text-xs ${styles.text.muted} pt-1 font-medium leading-relaxed`}
+                className={cn(
+                  'pt-1 text-xs font-medium leading-relaxed',
+                  styles.text.muted
+                )}
                 initial={{ y: 10 }}
                 animate={isHovered ? { y: 0 } : { y: 10 }}
                 transition={{ delay: 0.1, duration: 0.3 }}
